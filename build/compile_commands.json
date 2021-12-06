@@ -1,0 +1,37 @@
+[
+{
+  "directory": "/home/solo/VDSProject08/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test   -fPIC -std=c++11   -g   -o CMakeFiles/VDSProject.dir/src/main.cpp.o -c /home/solo/VDSProject08/src/main.cpp",
+  "file": "/home/solo/VDSProject08/src/main.cpp"
+},
+{
+  "directory": "/home/solo/VDSProject08/build/src",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test   -fPIC -std=c++11   -g   -o CMakeFiles/Manager.dir/Manager.cpp.o -c /home/solo/VDSProject08/src/Manager.cpp",
+  "file": "/home/solo/VDSProject08/src/Manager.cpp"
+},
+{
+  "directory": "/home/solo/VDSProject08/build/src/test",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test -isystem /home/solo/VDSProject08/src/googletest/googletest/include -isystem /home/solo/VDSProject08/src/googletest/googletest   -fPIC -std=c++11   -g   -o CMakeFiles/VDSProject_test.dir/main_test.cpp.o -c /home/solo/VDSProject08/src/test/main_test.cpp",
+  "file": "/home/solo/VDSProject08/src/test/main_test.cpp"
+},
+{
+  "directory": "/home/solo/VDSProject08/build/src/googletest/googlemock",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test -isystem /home/solo/VDSProject08/src/googletest/googlemock/include -isystem /home/solo/VDSProject08/src/googletest/googlemock -isystem /home/solo/VDSProject08/src/googletest/googletest/include -isystem /home/solo/VDSProject08/src/googletest/googletest   -fPIC -std=c++11   -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /home/solo/VDSProject08/src/googletest/googlemock/src/gmock_main.cc",
+  "file": "/home/solo/VDSProject08/src/googletest/googlemock/src/gmock_main.cc"
+},
+{
+  "directory": "/home/solo/VDSProject08/build/src/googletest/googlemock",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test -I/home/solo/VDSProject08/src/googletest/googlemock/include -I/home/solo/VDSProject08/src/googletest/googlemock -isystem /home/solo/VDSProject08/src/googletest/googletest/include -isystem /home/solo/VDSProject08/src/googletest/googletest   -fPIC -std=c++11   -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /home/solo/VDSProject08/src/googletest/googlemock/src/gmock-all.cc",
+  "file": "/home/solo/VDSProject08/src/googletest/googlemock/src/gmock-all.cc"
+},
+{
+  "directory": "/home/solo/VDSProject08/build/src/googletest/googletest",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test -isystem /home/solo/VDSProject08/src/googletest/googletest/include -isystem /home/solo/VDSProject08/src/googletest/googletest   -fPIC -std=c++11   -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /home/solo/VDSProject08/src/googletest/googletest/src/gtest_main.cc",
+  "file": "/home/solo/VDSProject08/src/googletest/googletest/src/gtest_main.cc"
+},
+{
+  "directory": "/home/solo/VDSProject08/build/src/googletest/googletest",
+  "command": "/bin/x86_64-linux-gnu-g++-9   -I/home/solo/VDSProject08/src -I/home/solo/VDSProject08/src/test -I/home/solo/VDSProject08/src/googletest/googletest/include -I/home/solo/VDSProject08/src/googletest/googletest   -fPIC -std=c++11   -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /home/solo/VDSProject08/src/googletest/googletest/src/gtest-all.cc",
+  "file": "/home/solo/VDSProject08/src/googletest/googletest/src/gtest-all.cc"
+}
+]

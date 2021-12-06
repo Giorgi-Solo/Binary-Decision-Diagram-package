@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/solo/VDSProject08/src/Manager.cpp
+Manager.h
+/home/solo/VDSProject08/src/Manager.h
+
+/home/solo/VDSProject08/src/Manager.h
+ManagerInterface.h
+/home/solo/VDSProject08/src/ManagerInterface.h
+
+/home/solo/VDSProject08/src/ManagerInterface.h
+string
+-
+set
+-
+

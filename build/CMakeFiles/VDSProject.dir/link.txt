@@ -1,0 +1,1 @@
+/bin/x86_64-linux-gnu-g++-9   -fPIC -std=c++11   -g   CMakeFiles/VDSProject.dir/src/main.cpp.o  -o VDSProject   -L/home/solo/VDSProject08/src  -L/home/solo/VDSProject08/src/test  -Wl,-rpath,/home/solo/VDSProject08/src:/home/solo/VDSProject08/src/test src/libManager.a 

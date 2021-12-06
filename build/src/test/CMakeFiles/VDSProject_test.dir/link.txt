@@ -1,0 +1,1 @@
+/bin/x86_64-linux-gnu-g++-9   -fPIC -std=c++11   -g   CMakeFiles/VDSProject_test.dir/main_test.cpp.o  -o VDSProject_test   -L/home/solo/VDSProject08/src  -L/home/solo/VDSProject08/src/test  -Wl,-rpath,/home/solo/VDSProject08/src:/home/solo/VDSProject08/src/test ../libManager.a ../../lib/libgtestd.a ../../lib/libgtest_maind.a -lpthread ../../lib/libgtestd.a -lpthread 
