@@ -4,5 +4,5 @@ add_library(Manager Manager.cpp)
 
 enable_testing()
 
-add_subdirectory(googletest)
+add_subdirectory(gtest)
 # add_subdirectory(test)
