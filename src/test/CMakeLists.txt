@@ -10,5 +10,4 @@ target_link_libraries(VDSProject_test Manager)
 target_link_libraries(VDSProject_test gtest gtest_main pthread)
 
 add_test(NAME mytest
-         COMMAND VDSProject_test --config $<CONFIG>
-                            --exe $<TARGET_FILE:VDSProject_test>)
+         COMMAND VDSProject_test)
