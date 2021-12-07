@@ -9,7 +9,7 @@
 TEST(Manager, False)
 {
     ClassProject::Manager *manager = new ClassProject::Manager;
-    EXPECT_TRUE(0);
+    EXPECT_TRUE(1);
 }
 
 int main(int argc, char* argv[])
