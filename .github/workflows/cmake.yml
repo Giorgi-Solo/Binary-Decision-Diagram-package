@@ -1,10 +1,6 @@
 name: CMake
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -19,19 +15,51 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
+    
+    - name: install GTest
+      run:  |
+        sudo apt-get install libgtest-dev
+        cd /usr/src/gtest
+        sudo cmake CMakeLists.txt
+        sudo make
+    
+#     - name: Install Boost
+#       run: sudo apt-get update && sudo apt-get install libboost-all-dev
       
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+      
+    
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      
+    - name: Build VDSProject_test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE --target VDSProject_test
+      
+    - name: Run VDSProject_test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: ${{runner.workspace}}/build/src/test/VDSProject_test
+    
+#     - name: Build VDSProject_reachability
+#       working-directory: ${{runner.workspace}}/build
+#       shell: bash
+#       run: cmake --build . --config $BUILD_TYPE --target VDSProject_reachability
+    
+#     - name: Run VDSProject_reachability
+#       working-directory: ${{runner.workspace}}/build
+#       shell: bash
+#       run: ${{runner.workspace}}/build/src/reachability/VDSProject_reachability
+      
+      
+#     - name: Test
+#       working-directory: ${{github.workspace}}/build
+#       # Execute tests defined by the CMake configuration.  
+#       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+#       run: ctest -C ${{env.BUILD_TYPE}}
+      
+  
