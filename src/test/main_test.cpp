@@ -6,11 +6,19 @@
 #include "Tests.h"
 
 
-TEST(Manager, False)
+TEST(Manager, True)
 {
     ClassProject::Manager *manager = new ClassProject::Manager;
     EXPECT_TRUE(1);
 }
+
+
+TEST(Manager, False)
+{
+    ClassProject::Manager *manager = new ClassProject::Manager;
+    EXPECT_FALSE(1);
+}
+
 
 int main(int argc, char* argv[])
 {
