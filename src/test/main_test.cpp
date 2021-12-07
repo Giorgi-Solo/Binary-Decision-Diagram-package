@@ -4,14 +4,6 @@
 
 
 #include "Tests.h"
-// #include "tst_testManager.cpp"
-
-TEST(Manager, True)
-{
-    ClassProject::Manager *manager = new ClassProject::Manager;
-    
-    EXPECT_TRUE(manager->True());
-}
 
 TEST(Manager, False)
 {
