@@ -3,9 +3,7 @@
 using namespace ClassProject;
 
 Manager::Manager()
-{
-    
-}
+{}
 
 Manager::~Manager()
 {}
@@ -75,4 +73,3 @@ void Manager::findVars(const BDD_ID &root, std::set<BDD_ID> &vars_of_root)
 
 size_t Manager::uniqueTableSize()
 {}
-
