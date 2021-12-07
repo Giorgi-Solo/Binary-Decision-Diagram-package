@@ -16,7 +16,7 @@ TEST(Manager, True)
 TEST(Manager, False)
 {
     ClassProject::Manager *manager = new ClassProject::Manager;
-    EXPECT_FALSE(1);
+    EXPECT_FALSE(0);
 }
 
 
