@@ -3,55 +3,28 @@
 using namespace ClassProject;
 
 Manager::Manager()
-{
-    struct TableEntry Entry0 = {"False", 0, 0, 0, 0};
-    UniqueTable.push_back(Entry0);
-
-    struct TableEntry Entry1 = {"True", 1, 1, 1, 1};
-    UniqueTable.push_back(Entry1);
-    
-}
+{}
 
 Manager::~Manager()
 {}
 
 BDD_ID Manager::createVar(const std::string &label)
-{
-    BDD_ID newVarId = UniqueTable.size();
-    UniqueTable.push_back({label,newVarId,1,0,newVarId});
-    return newVarId;   
-}
+{}
 
 const BDD_ID& Manager::True()
-{
-    return UniqueTable.at(1).id;
-}
+{}
 
 const BDD_ID& Manager::False()
-{
-    return UniqueTable.at(0).id;
-}
+{}
 
 bool Manager::isConstant(BDD_ID f)
-{
-    if(f == 1 or f == 0)
-        return true;
-    else
-        return false;
-}
+{}
 
 bool Manager::isVariable(BDD_ID x)
-{
-    if(x == 1 or x == 0)
-        return false;
-    else
-        return true;
-}
+{}
 
 BDD_ID Manager::topVar(BDD_ID f)
-{
-    return UniqueTable.at(f).topVar;
-}
+{}
 
 BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
 {}

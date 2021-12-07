@@ -4,7 +4,6 @@
 
 
 #include "Tests.h"
-#include "tst_testManager.cpp"
 
 TEST(Manager, False)
 {
