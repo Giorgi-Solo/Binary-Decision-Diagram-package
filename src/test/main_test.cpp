@@ -6,6 +6,12 @@
 #include "Tests.h"
 #include "tst_testManager.cpp"
 
+TEST(Manager, False)
+{
+    ClassProject::Manager *manager = new ClassProject::Manager;
+    EXPECT_TRUE(0);
+}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

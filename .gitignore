@@ -1,3 +1,2 @@
-build
-src/googletest
-.vscode
+build/
+.vscode/
