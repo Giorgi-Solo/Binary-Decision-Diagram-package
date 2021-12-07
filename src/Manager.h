@@ -6,13 +6,13 @@
 #define VDSPROJECT_MANAGER_H
 
 #include "ManagerInterface.h"
-#include<iostream>
+#include <iostream>
 #include <list>
 
 namespace ClassProject 
 {
 
-    struct MyStruct
+    struct TableEntry
     {
         std::string label;
         BDD_ID id;
@@ -21,7 +21,7 @@ namespace ClassProject
         uint16_t topVar;
     };
 
-class Manager: ManagerInterface
+class Manager: public ManagerInterface
 {
 public:
     Manager();
@@ -73,7 +73,7 @@ public:
 
     
 private:
-    std::list<MyStruct> myList;
+    std::list<TableEntry> UniqueTable;
     
 };
 }
