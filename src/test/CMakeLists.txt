@@ -11,6 +11,9 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+enable_testing()
+
+add_subdirectory(googletest)
 # Now simply link against gtest or gtest_main as needed. Eg
 
 add_executable(VDSProject_test main_test.cpp)
