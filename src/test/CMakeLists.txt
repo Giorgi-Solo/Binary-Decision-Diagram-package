@@ -21,4 +21,4 @@ target_link_libraries(VDSProject_test gtest gtest_main pthread)
 
 add_test(NAME mytest
          COMMAND testDriver --config $<CONFIG>
-                            --exe $<TARGET_FILE:myexe>)
+                            --exe $<TARGET_FILE:VDSProject_test>)
