@@ -70,7 +70,7 @@ TEST(Manager, uniqueTableSize)
     Manager manager;
     size_t size = 10;
     addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
-    EXPECT_TRUE(size == manager.uniqueTableSize());
+    EXPECT_TRUE(size == manager.uniqueTableSize()) << "Method not implemented";
     
 }
 

@@ -24,7 +24,7 @@ BDD_ID Manager::createVar(const std::string &label)
         if(uniqueTable.at(i).label == label)
             return i;
             
-    uniqueTable.push_back({label,newVarId,BDD_ID(1),BDD_ID(0),newVarId});
+    uniqueTable.push_back({label,newVarId,(BDD_ID)1,(BDD_ID)0,newVarId});
     return newVarId; 
 }
 
@@ -95,7 +95,9 @@ void Manager::findVars(const BDD_ID &root, std::set<BDD_ID> &vars_of_root)
 {}
 
 size_t Manager::uniqueTableSize()
-{}
+{
+    return uniqueTable.size();
+}
 
 TableEntry Manager::getNode(const BDD_ID id)
 {
