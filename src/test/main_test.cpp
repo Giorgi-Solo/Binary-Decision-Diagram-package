@@ -12,6 +12,8 @@ using namespace ClassProject;
 
     @param pointer to Manager object, number of variable numVars
     the function adds numVars nodes to unique table
+
+    Since this function uses createVar method, we do not use this functin in Test for createVar
 */
 
 void addNodes(Manager *manager, size_t numVars)
@@ -106,6 +108,19 @@ TEST(Manager, isVariable)
             EXPECT_TRUE(manager.isVariable(id) == false) << "Method not implemented";
     }
     EXPECT_TRUE(manager.isVariable(size) == false) << " Method not implemented"; // case when requested node is not in unique table
+}
+
+TEST(Manager, topVar){
+    Manager manager;
+    size_t size = 10;
+    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    
+    BDD_ID id;
+    for(id=0;id<size;++id)
+    {
+        EXPECT_TRUE(manager.getNode(id).topVar == manager.topVar(id)) << " Method not implemented"; 
+    }
+    
 }
 
 int main(int argc, char* argv[])
