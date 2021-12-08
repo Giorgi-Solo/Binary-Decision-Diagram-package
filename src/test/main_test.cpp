@@ -88,6 +88,7 @@ TEST(Manager, isConstant)
         else
             EXPECT_TRUE(manager.isConstant(id) == false) << "Method not implemented";
     }
+    EXPECT_TRUE(manager.isConstant(size) == false) << " Method not implemented"; // case when requested node is not in unique table
 }
 
 int main(int argc, char* argv[])

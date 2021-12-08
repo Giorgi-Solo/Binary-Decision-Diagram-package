@@ -40,7 +40,14 @@ const BDD_ID& Manager::False()
 
 bool Manager::isConstant(BDD_ID f)
 {
-
+    if(f >= uniqueTableSize())
+        return false;
+        
+    if(getNode(f).topVar < 2) 
+        return true;
+    else
+        return false;
+        
 }
 
 bool Manager::isVariable(BDD_ID x)
@@ -101,5 +108,6 @@ size_t Manager::uniqueTableSize()
 
 TableEntry Manager::getNode(const BDD_ID id)
 {
-    return uniqueTable.at(id);
+    if(id < uniqueTableSize())
+        return uniqueTable.at(id); // think what to do if id >= size
 }
