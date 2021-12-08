@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 namespace ClassProject 
 {
 
@@ -28,8 +30,6 @@ namespace ClassProject
                     (low == c2.low) &&
                     (topVar == c2.topVar);
         }
-
-        
     };
 
 class Manager: public ManagerInterface

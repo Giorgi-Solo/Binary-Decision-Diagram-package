@@ -6,6 +6,28 @@
 #include "Tests.h"
 using namespace ClassProject;
 
+/*
+    During testing, we had to create unique table with several variable nodes. That is why we 
+    wrote a function that does that.
+
+    @param pointer to Manager object, number of variable numVars
+    the function adds numVars nodes to unique table
+*/
+
+void addNodes(Manager *manager, size_t numVars)
+{
+    BDD_ID id;
+    std::string label = "a";
+    label[0] = label[0] - 1; // subtract 1 so that in loop first variable is "a"
+
+    for(id = 2; id < (numVars + 2); ++id) // id 2 because we already have 2 nodes in uniqueTable
+    {
+        label[0] = label[0] + 1; // add 1 to simulate different variables starting with "a"
+        manager->createVar(label);
+    }
+}
+
+
 TEST(Manager, Constructor)
 {
     Manager manager;
@@ -42,6 +64,16 @@ TEST(Manager, False)
     Manager manager;
     EXPECT_TRUE(manager.False() == (BDD_ID)0) << "Method not implemented";
 }
+
+TEST(Manager, uniqueTableSize)
+{
+    Manager manager;
+    size_t size = 10;
+    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    EXPECT_TRUE(size == manager.uniqueTableSize());
+    
+}
+
 
 int main(int argc, char* argv[])
 {
