@@ -13,6 +13,14 @@ Manager::~Manager()
 
 BDD_ID Manager::createVar(const std::string &label)
 {
+    BDD_ID newVarId = uniqueTable.size();
+    BDD_ID i;
+    for(i = 0; i < newVarId; ++i)          // to check if we already have that variable
+        if(uniqueTable.at(i).label == label)
+            return i;
+            
+    uniqueTable.push_back({label,newVarId,1,0,newVarId});
+    return newVarId; 
 }
 
 const BDD_ID& Manager::True()
