@@ -35,7 +35,7 @@ const BDD_ID& Manager::True()
 
 const BDD_ID& Manager::False()
 {
-    
+    return uniqueTable.at(0).id;
 }
 
 bool Manager::isConstant(BDD_ID f)
