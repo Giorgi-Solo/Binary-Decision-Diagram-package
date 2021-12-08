@@ -19,6 +19,17 @@ namespace ClassProject
         uint16_t high;
         uint16_t low;
         uint16_t topVar;
+        
+        bool operator == (TableEntry c2) 
+        {
+            return (label == c2.label) &&
+                    (id == c2.id) &&
+                    (high == c2.high) &&
+                    (low == c2.low) &&
+                    (topVar == c2.topVar);
+        }
+
+        
     };
 
 class Manager: public ManagerInterface
@@ -70,10 +81,11 @@ public:
     void findVars(const BDD_ID &root, std::set<BDD_ID> &vars_of_root);
 
     size_t uniqueTableSize();
-
     
+    TableEntry getNode(const BDD_ID id);
+
 private:
-    std::vector<TableEntry> UniqueTable;
+    std::vector<TableEntry> uniqueTable;
     
 };
 }
