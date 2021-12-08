@@ -91,6 +91,23 @@ TEST(Manager, isConstant)
     EXPECT_TRUE(manager.isConstant(size) == false) << " Method not implemented"; // case when requested node is not in unique table
 }
 
+TEST(Manager, isVariable)
+{
+    Manager manager;
+    size_t size = 10;
+    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    
+    BDD_ID id;
+    for(id=0;id<size;++id)
+    {
+        if(manager.getNode(id).topVar >= 2) // the first two nodes are leaf nodes
+            EXPECT_TRUE(manager.isVariable(id) == true) << "Method not implemented";
+        else
+            EXPECT_TRUE(manager.isVariable(id) == false) << "Method not implemented";
+    }
+    EXPECT_TRUE(manager.isVariable(size) == false) << " Method not implemented"; // case when requested node is not in unique table
+}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
