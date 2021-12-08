@@ -24,7 +24,7 @@ BDD_ID Manager::createVar(const std::string &label)
         if(uniqueTable.at(i).label == label)
             return i;
             
-    uniqueTable.push_back({label,newVarId,(BDD_ID)1,(BDD_ID)0,newVarId});
+    uniqueTable.push_back({label,newVarId,1,0,newVarId});
     return newVarId; 
 }
 

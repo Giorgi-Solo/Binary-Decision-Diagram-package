@@ -74,6 +74,21 @@ TEST(Manager, uniqueTableSize)
     
 }
 
+TEST(Manager, isConstant)
+{
+    Manager manager;
+    size_t size = 10;
+    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    
+    BDD_ID id;
+    for(id=0;id<size;++id)
+    {
+        if(manager.getNode(id).topVar < 2) // the first two nodes are leaf nodes
+            EXPECT_TRUE(manager.isConstant(id) == true) << "Method not implemented";
+        else
+            EXPECT_TRUE(manager.isConstant(id) == false) << "Method not implemented";
+    }
+}
 
 int main(int argc, char* argv[])
 {
