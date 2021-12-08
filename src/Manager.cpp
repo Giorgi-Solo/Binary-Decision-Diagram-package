@@ -12,7 +12,8 @@ Manager::~Manager()
 {}
 
 BDD_ID Manager::createVar(const std::string &label)
-{}
+{
+}
 
 const BDD_ID& Manager::True()
 {}

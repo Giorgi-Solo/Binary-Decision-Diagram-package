@@ -15,6 +15,22 @@ TEST(Manager, Constructor)
     EXPECT_TRUE(manager.getNode(1) == trueNode);
 }
 
+TEST(Manager,createVar)
+{    
+    ClassProject::Manager manager;
+    ClassProject::BDD_ID id;
+    std::string label = "a";
+    label[0] = label[0] - 1; // subtract 1 so that in loop first variable is "a"
+    ClassProject::TableEntry tmp; 
+    for(id = 2; id < 7; ++id) // id 2 because we already have 2 nodes in uniqueTable
+    {
+        label[0] = label[0] + 1; // add 1 to simulate different variables starting with "a"
+        tmp = manager.getNode(manager.createVar(label));
+        EXPECT_TRUE(tmp == manager.getNode(id));
+    }
+    EXPECT_TRUE(manager.createVar("False") == 0) << "Same variable added twice";
+}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
