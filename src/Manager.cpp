@@ -50,7 +50,15 @@ bool Manager::isConstant(BDD_ID f)
 }
 
 bool Manager::isVariable(BDD_ID x)
-{}
+{
+    if(x >= uniqueTableSize())
+        return false;
+        
+    if(getNode(x).topVar < 2) 
+        return false;
+    else
+        return true;
+}
 
 BDD_ID Manager::topVar(BDD_ID f)
 {}
