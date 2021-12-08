@@ -5,16 +5,14 @@
 
 #include "Tests.h"
 
-TEST(Manager, False)
-{
-    ClassProject::Manager *manager = new ClassProject::Manager;
-    EXPECT_FALSE(1);
-}
 
-TEST(Manager, True)
+TEST(Manager, Constructor)
 {
-    ClassProject::Manager *manager = new ClassProject::Manager;
-    EXPECT_TRUE(1);
+    ClassProject::Manager manager;
+    ClassProject::TableEntry falseNode =  {"False", 0, 0, 0, 0};
+    ClassProject::TableEntry trueNode =  {"True", 1, 1, 1, 1};
+    EXPECT_TRUE(manager.getNode(0) == falseNode);
+    EXPECT_TRUE(manager.getNode(1) == trueNode);
 }
 
 int main(int argc, char* argv[])

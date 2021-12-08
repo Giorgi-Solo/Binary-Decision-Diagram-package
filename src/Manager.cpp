@@ -3,7 +3,10 @@
 using namespace ClassProject;
 
 Manager::Manager()
-{}
+{
+    uniqueTable.push_back({"False", 0, 0, 0, 0});
+    uniqueTable.push_back({"True", 1, 1, 1, 1});
+}
 
 Manager::~Manager()
 {}
@@ -73,3 +76,8 @@ void Manager::findVars(const BDD_ID &root, std::set<BDD_ID> &vars_of_root)
 
 size_t Manager::uniqueTableSize()
 {}
+
+TableEntry Manager::getNode(const BDD_ID id)
+{
+    return uniqueTable.at(id);
+}
