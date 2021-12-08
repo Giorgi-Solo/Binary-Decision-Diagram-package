@@ -11,6 +11,11 @@ Manager::Manager()
 Manager::~Manager()
 {}
 
+/*
+* Adds new node to UniqueTable
+* @param new node label
+* @return id of new node
+*/
 BDD_ID Manager::createVar(const std::string &label)
 {
     BDD_ID newVarId = uniqueTable.size();
