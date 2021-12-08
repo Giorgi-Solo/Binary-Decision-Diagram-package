@@ -34,7 +34,9 @@ const BDD_ID& Manager::True()
 }
 
 const BDD_ID& Manager::False()
-{}
+{
+    
+}
 
 bool Manager::isConstant(BDD_ID f)
 {}

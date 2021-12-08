@@ -37,6 +37,12 @@ TEST(Manager, True)
     EXPECT_TRUE(manager.True() == (BDD_ID)1) << "Method not implemented";
 }
 
+TEST(Manager, False)
+{
+    Manager manager;
+    EXPECT_TRUE(manager.False() == (BDD_ID)0) << "Method not implemented";
+}
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
