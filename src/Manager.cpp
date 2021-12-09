@@ -5,8 +5,8 @@ using namespace ClassProject;
 
 Manager::Manager()
 {
-    uniqueTable.push_back({"False", 0, 0, 0, 0});
-    uniqueTable.push_back({"True", 1, 1, 1, 1});
+    uniqueTable.push_back(NODE_FALSE);
+    uniqueTable.push_back(NODE_TRUE);
 }
 
 Manager::Manager(vector<TableEntry> uniqueTable)
@@ -31,7 +31,7 @@ BDD_ID Manager::createVar(const string &label)
         if(uniqueTable.at(i).label == label)
             return i;
             
-    uniqueTable.push_back({label,newVarId,1,0,newVarId});
+    uniqueTable.push_back({label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)});
     return newVarId; 
 }
 
@@ -109,13 +109,64 @@ BDD_ID Manager::xnor2(BDD_ID a, BDD_ID b)
 {}
 
 string Manager::getTopVarName(const BDD_ID &root)
-{}
+{
+    return getNode(uniqueTable.at(root).id).label;
+}
 
 void Manager::findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root)
-{}
+{
+    nodes_of_root.clear();
+    findNodesHigh(root, nodes_of_root);
+    findNodesLow(root, nodes_of_root);
+}
+
+void Manager::findNodesHigh(const BDD_ID &root, set<BDD_ID> &nodes_of_root_high)
+{
+    BDD_ID id = root;
+    uint16_t high = getNode(id).high;
+
+    while(1)
+    {
+        if (high == 1) // 1 is not a node (TODO: check if this is true)
+        {
+            return;
+        }
+
+        high = getNode(id).high;
+        nodes_of_root_high.insert(id);
+        id = high; //  high points to next id
+    }
+}
+
+void Manager::findNodesLow(const BDD_ID &root, set<BDD_ID> &nodes_of_root_low)
+{
+    BDD_ID id = root;
+    uint16_t low = getNode(id).low;
+    while(1)
+    {
+        if (low == 0) // 0 is not a node (TODO: check if this is true)
+        {
+            return;
+        }
+
+        low = getNode(id).low;
+        nodes_of_root_low.insert(id);
+        id = low; //  low points to next id
+    }
+}
 
 void Manager::findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root)
-{}
+{    
+    set<BDD_ID> nodes_of_root;
+    findNodes(root, nodes_of_root);
+
+    vars_of_root.clear();
+
+    for(set<BDD_ID>::const_iterator i = nodes_of_root.cbegin(); i != nodes_of_root.cend(); i++)
+    {
+        vars_of_root.insert(getNode((*i)).topVar);
+    }
+}
 
 size_t Manager::uniqueTableSize()
 {

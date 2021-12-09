@@ -82,7 +82,7 @@ public:
     string getTopVarName(const BDD_ID &root);
 
     void findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root);
-
+   
     void findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root);
 
     size_t uniqueTableSize();
@@ -90,8 +90,10 @@ public:
     TableEntry getNode(const BDD_ID id);
 
 private:
+    void findNodesHigh(const BDD_ID &root, set<BDD_ID> &nodes_of_root_high);
+    void findNodesLow(const BDD_ID &root, set<BDD_ID> &nodes_of_root_low);
+
     vector<TableEntry> uniqueTable;
-    
 };
 }
 
