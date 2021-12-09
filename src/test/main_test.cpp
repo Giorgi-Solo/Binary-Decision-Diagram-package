@@ -144,7 +144,7 @@ TEST(Manager, getTopVarName)
 
     for (int i = 0; i < tmp.size(); i++)
     {
-        BDD_ID topVarId = tmp.at(i).id;
+        BDD_ID topVarId = tmp.at(i).topVar;
         std::string topVarName = tmp.at(topVarId).label;
 
         EXPECT_TRUE(manager.getTopVarName(i) == topVarName);
