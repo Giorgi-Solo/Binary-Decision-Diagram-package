@@ -9,6 +9,12 @@ Manager::Manager()
     uniqueTable.push_back({"True", 1, 1, 1, 1});
 }
 
+Manager::Manager(vector<TableEntry> uniqueTable)
+{
+    // TODO: Check for incorrect uniqueTable?
+    this->uniqueTable = uniqueTable;
+}
+
 Manager::~Manager()
 {}
 
