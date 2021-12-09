@@ -16,7 +16,7 @@ namespace ClassProject
 
     struct TableEntry
     {
-        std::string label;
+        string label;
         BDD_ID id;
         uint16_t high;
         uint16_t low;
@@ -38,7 +38,7 @@ public:
     Manager();
     ~Manager();
 
-    BDD_ID createVar(const std::string &label);
+    BDD_ID createVar(const string &label);
 
     const BDD_ID &True();
 
@@ -74,18 +74,18 @@ public:
 
     BDD_ID xnor2(BDD_ID a, BDD_ID b);
 
-    std::string getTopVarName(const BDD_ID &root);
+    string getTopVarName(const BDD_ID &root);
 
-    void findNodes(const BDD_ID &root, std::set<BDD_ID> &nodes_of_root);
+    void findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root);
 
-    void findVars(const BDD_ID &root, std::set<BDD_ID> &vars_of_root);
+    void findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root);
 
     size_t uniqueTableSize();
     
     TableEntry getNode(const BDD_ID id);
 
 private:
-    std::vector<TableEntry> uniqueTable;
+    vector<TableEntry> uniqueTable;
     
 };
 }

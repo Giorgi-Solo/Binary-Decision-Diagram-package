@@ -4,6 +4,8 @@
 
 
 #include "Tests.h"
+
+using namespace std;
 using namespace ClassProject;
 
 /*
@@ -16,15 +18,15 @@ using namespace ClassProject;
     Since this function uses createVar method, we do not use this functin in Test for createVar
 */
 
-void addNodes(Manager *manager, size_t numVars)
+void addNodes(Manager *manager, size_t size)
 {
     BDD_ID id;
-    std::string label = "a";
+    string label = "a";
     label[0] = label[0] - 1; // subtract 1 so that in loop first variable is "a"
 
-    for(id = 2; id < (numVars + 2); ++id) // id 2 because we already have 2 nodes in uniqueTable
+    for(id = 2; id < (size); ++id) // id 2 because we already have 2 nodes in uniqueTable
     {
-        label[0] = label[0] + 1; // add 1 to simulate different variables starting with "a"
+        label[0] = label[0] + 1; // add 1 to simulate different variables, starting with "a"
         manager->createVar(label);
     }
 }
@@ -43,7 +45,7 @@ TEST(Manager,createVar)
 {    
     Manager manager;
     BDD_ID id;
-    std::string label = "a";
+    string label = "a";
     label[0] = label[0] - 1; // subtract 1 so that in loop first variable is "a"
     TableEntry tmp; 
     for(id = 2; id < 7; ++id) // id 2 because we already have 2 nodes in uniqueTable
@@ -71,7 +73,7 @@ TEST(Manager, uniqueTableSize)
 {
     Manager manager;
     size_t size = 10;
-    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    addNodes(&manager,size); // we add size-2 nodes because we already have 2 nodes
     EXPECT_TRUE(size == manager.uniqueTableSize()) << "Method not implemented";
     
 }
@@ -80,7 +82,7 @@ TEST(Manager, isConstant)
 {
     Manager manager;
     size_t size = 10;
-    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    addNodes(&manager,size); // we add size-2 nodes because we already have 2 nodes
     
     BDD_ID id;
     for(id=0;id<size;++id)
@@ -97,7 +99,7 @@ TEST(Manager, isVariable)
 {
     Manager manager;
     size_t size = 10;
-    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    addNodes(&manager,size); // we add size-2 nodes because we already have 2 nodes
     
     BDD_ID id;
     for(id=0;id<size;++id)
@@ -113,7 +115,7 @@ TEST(Manager, isVariable)
 TEST(Manager, topVar){
     Manager manager;
     size_t size = 10;
-    addNodes(&manager,size - 2); // we add size-2 nodes because we already have 2 nodes
+    addNodes(&manager,size); // we add size-2 nodes because we already have 2 nodes
     
     BDD_ID id;
     for(id=0;id<size;++id)

@@ -1,5 +1,6 @@
 #include "Manager.h"
 
+using namespace std;
 using namespace ClassProject;
 
 Manager::Manager()
@@ -16,7 +17,7 @@ Manager::~Manager()
 * @param new node label
 * @return id of new node
 */
-BDD_ID Manager::createVar(const std::string &label)
+BDD_ID Manager::createVar(const string &label)
 {
     BDD_ID newVarId = uniqueTable.size();
     BDD_ID i;
@@ -54,7 +55,7 @@ bool Manager::isVariable(BDD_ID x)
     if(x >= uniqueTableSize())
         return false;
         
-    if(getNode(x).topVar < 2) 
+    if(getNode(x).topVar < 2) // cHECK IF BOOLEAN FUNCTION NODES SHOULD RETURN TRUE
         return false;
     else
         return true;
@@ -101,13 +102,13 @@ BDD_ID Manager::nor2(BDD_ID a, BDD_ID b)
 BDD_ID Manager::xnor2(BDD_ID a, BDD_ID b)
 {}
 
-std::string Manager::getTopVarName(const BDD_ID &root)
+string Manager::getTopVarName(const BDD_ID &root)
 {}
 
-void Manager::findNodes(const BDD_ID &root, std::set<BDD_ID> &nodes_of_root)
+void Manager::findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root)
 {}
 
-void Manager::findVars(const BDD_ID &root, std::set<BDD_ID> &vars_of_root)
+void Manager::findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root)
 {}
 
 size_t Manager::uniqueTableSize()
@@ -117,6 +118,5 @@ size_t Manager::uniqueTableSize()
 
 TableEntry Manager::getNode(const BDD_ID id)
 {
-    if(id < uniqueTableSize())
-        return uniqueTable.at(id); // think what to do if id >= size
+    return uniqueTable.at(id); 
 }
