@@ -11,7 +11,7 @@
 
 /*NODE Structure {label, id, high, low, topVar}*/
 #define NODE_FALSE {"False", 0, 0, 0, 0}
-#define NODE_TRUE  {"True",  1 , 1, 1, 1}
+#define NODE_TRUE  {"True",  1, 1, 1, 1}
 
 using namespace std;
 
@@ -82,7 +82,7 @@ public:
     string getTopVarName(const BDD_ID &root);
 
     void findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root);
-   
+
     void findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root);
 
     size_t uniqueTableSize();
