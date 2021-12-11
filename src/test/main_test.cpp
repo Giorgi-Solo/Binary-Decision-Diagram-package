@@ -156,13 +156,15 @@ TEST(Manager, findNodes)
     Manager manager(SAMPLE_TABLE);
     set<BDD_ID> nodes_of_root;
     manager.findNodes(9, nodes_of_root);
-
+    
     //this expectedResult has been calculated beforehand based on the SAMPLE_TABLE (TODO:check if it is correct)
     set<BDD_ID> expectedResult;
     expectedResult.insert(9);
     expectedResult.insert(7);
     expectedResult.insert(5);
     expectedResult.insert(8);
+    expectedResult.insert(1);
+    expectedResult.insert(0);
     
     EXPECT_TRUE(nodes_of_root == expectedResult);
 }

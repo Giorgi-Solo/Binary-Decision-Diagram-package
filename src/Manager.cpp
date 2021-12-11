@@ -115,43 +115,22 @@ string Manager::getTopVarName(const BDD_ID &root)
 
 void Manager::findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root)
 {
-    nodes_of_root.clear();
-    findNodesHigh(root, nodes_of_root);
-    findNodesLow(root, nodes_of_root);
-}
-
-void Manager::findNodesHigh(const BDD_ID &root, set<BDD_ID> &nodes_of_root_high)
-{
-    BDD_ID id = root;
-    uint16_t high = getNode(id).high;
-
-    while(1)
-    {
-        if (high == 1) // 1 is not a node (TODO: check if this is true)
-        {
-            return;
-        }
-
-        high = getNode(id).high;
-        nodes_of_root_high.insert(id);
-        id = high; //  high points to next id
+    if ((nodes_of_root.insert(root)).second == false)
+    { 
+        return; // root is already in set 
     }
-}
-
-void Manager::findNodesLow(const BDD_ID &root, set<BDD_ID> &nodes_of_root_low)
-{
-    BDD_ID id = root;
-    uint16_t low = getNode(id).low;
-    while(1)
+    
+    for (const auto &nextNode: {uniqueTable.at(root).high, uniqueTable.at(root).low})
     {
-        if (low == 0) // 0 is not a node (TODO: check if this is true)
-        {
-            return;
-        }
 
-        low = getNode(id).low;
-        nodes_of_root_low.insert(id);
-        id = low; //  low points to next id
+        if(nextNode > 1) // check if it is not terminal node (node.high != 0 && node.high != 1)
+        {
+            findNodes(nextNode, nodes_of_root);
+        }
+        else
+        {
+            nodes_of_root.insert(nextNode);
+        }
     }
 }
 
@@ -160,11 +139,13 @@ void Manager::findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root)
     set<BDD_ID> nodes_of_root;
     findNodes(root, nodes_of_root);
 
-    vars_of_root.clear();
+    //the True and False node should not be in vars_of_root
+    nodes_of_root.erase(1);
+    nodes_of_root.erase(0);
 
-    for(set<BDD_ID>::const_iterator i = nodes_of_root.cbegin(); i != nodes_of_root.cend(); i++)
+    for(const auto &i : nodes_of_root)
     {
-        vars_of_root.insert(getNode((*i)).topVar);
+        vars_of_root.insert(getNode(i).topVar);
     }
 }
 
