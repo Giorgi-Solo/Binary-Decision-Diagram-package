@@ -22,4 +22,45 @@
 {    "f", 9, 7, 8, 2}, \
 } \
 
+
+using namespace std;
+using namespace ClassProject;
+
+void prTable(Manager manager){  // we used this function for debugging.
+    BDD_ID id; 
+    for(id = 0; id < manager.uniqueTableSize(); ++id)
+    {
+        cout << manager.getNode(id).id << " | " << manager.getNode(id).high << " | " << manager.getNode(id).low << " | " << manager.getNode(id).topVar << " | " << manager.getNode(id).label << endl;
+    }
+}
+
+struct ManagerTest : testing::Test
+{
+    Manager manager; 
+    
+    BDD_ID false_node = manager.False();
+    BDD_ID true_node = manager.True();
+
+    BDD_ID a_id = manager.createVar("a");
+    BDD_ID b_id = manager.createVar("b");
+    BDD_ID c_id = manager.createVar("c");
+    BDD_ID d_id = manager.createVar("d");
+
+    BDD_ID a_or_b_id    = manager.add_node({"a+b",   6, 1, 3, 2});
+    BDD_ID c_and_d_id   = manager.add_node({"c*d",   7, 5, 0, 4}); 
+    BDD_ID b_c_and_d_id = manager.add_node({"b*c*d", 8, 7, 0, 3}); 
+    BDD_ID f_id         = manager.add_node({"f",     9, 7, 8, 2}); 
+};
+
+TEST_F(ManagerTest, coFactorTrue)
+{  // decision variable is top variable
+    BDD_ID id;
+
+    for(id = 0; id < manager.uniqueTableSize(); ++id)
+    {
+        EXPECT_EQ(manager.coFactorTrue(id), manager.getNode(id).high) << "Method not implemented" << endl;
+    } 
+}
+
+
 #endif

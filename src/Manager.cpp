@@ -50,7 +50,7 @@ bool Manager::isConstant(BDD_ID f)
     if(f >= uniqueTableSize())
         return false;
         
-    if(getNode(f).topVar < 2) 
+    if(uniqueTable.at(f).high == uniqueTable.at(f).low)
         return true;
     else
         return false;
@@ -61,10 +61,10 @@ bool Manager::isVariable(BDD_ID x)
     if(x >= uniqueTableSize())
         return false;
         
-    if(getNode(x).topVar < 2) // cHECK IF BOOLEAN FUNCTION NODES SHOULD RETURN TRUE
-        return false;
-    else
+    if((uniqueTable.at(x).high == 1) && (uniqueTable.at(x).low == 0)) // cHECK IF BOOLEAN FUNCTION NODES SHOULD RETURN TRUE
         return true;
+    else
+        return false;
 }
 
 BDD_ID Manager::topVar(BDD_ID f)
@@ -158,3 +158,19 @@ TableEntry Manager::getNode(const BDD_ID id)
 {
     return uniqueTable.at(id); 
 }
+
+BDD_ID Manager::add_node(TableEntry entry)
+{
+     uniqueTable.push_back(entry);
+     return entry.id;
+};
+
+CashEntry Manager::getCashNode(const BDD_ID id)
+{
+    return computedTable.at(id);
+};
+
+size_t Manager::cashNodeSize()
+{
+    return computedTable.size();
+};
