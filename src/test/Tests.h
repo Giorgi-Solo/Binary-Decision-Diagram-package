@@ -59,7 +59,6 @@ TEST_F(ManagerTest, addNode)
     manager.add_node(testNode);
    
     EXPECT_TRUE(testNode == manager.getNode(new_node_id)) << "Method not implemented" << endl;
-
 }
 
 TEST_F(ManagerTest, coFactorTrue)
@@ -183,4 +182,21 @@ TEST_F(ManagerTest, ite) //
     EXPECT_EQ(r,expectedEntry.r); // prove that result, read from cash, is correct
 }
 
+TEST_F(ManagerTest, getCashNode)
+{  
+    BDD_ID f = 4, g = 3, h = 0;
+    BDD_ID r = manager.ite(f, g, h);
+    CashEntry expectedEntry = {f, g, h, r};
+   
+    EXPECT_TRUE(expectedEntry == manager.getCashNode(0)) << "f, g, h are not correctly retrieved" << endl;
+    EXPECT_TRUE(r == manager.getCashNode(0).r) << "r is not correctly retrieved";
+}
+
+TEST_F(ManagerTest, cashNodeSize)
+{  
+    BDD_ID f = 4, g = 3, h = 0;
+    manager.ite(f, g, h);
+   
+    EXPECT_TRUE(manager.cashNodeSize() == 1) << "can't read cash size" << endl;
+}
 #endif
