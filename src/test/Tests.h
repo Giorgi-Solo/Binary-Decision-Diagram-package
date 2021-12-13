@@ -52,6 +52,16 @@ struct ManagerTest : testing::Test
     BDD_ID f_id         = manager.add_node({"f",     9, 7, 8, 2}); 
 };
 
+TEST_F(ManagerTest, addNode)
+{  
+    BDD_ID new_node_id = manager.uniqueTableSize();
+    TableEntry testNode = {"testNode", new_node_id, 9, 8, 7};
+    manager.add_node(testNode);
+   
+    EXPECT_TRUE(testNode == manager.getNode(new_node_id)) << "Method not implemented" << endl;
+
+}
+
 TEST_F(ManagerTest, coFactorTrue)
 {  // decision variable is top variable
     BDD_ID id;
@@ -72,5 +82,105 @@ TEST_F(ManagerTest, coFactorFalse)
     } 
 }
 
+// ite(BDD_ID i,BDD_ID t,BDD_ID e) coFactorTrue(BDD_ID f,BDD_ID x), coFactorFalse(BDD_ID f,BDD_ID x) are tested
+// together, because they are depenednt on each other
+
+TEST_F(ManagerTest, coFactorTrue_specifying_variabel) // //TODO: incomplete, last two checks are not implemented
+{  
+    BDD_ID id = 9;
+    BDD_ID x  = 5;
+    TableEntry entry10 = {"placeHodler",   10, 4, 0, 3};
+    TableEntry entry11 = {"placeHodler",   11, 4, 10, 2};
+   
+    EXPECT_EQ(manager.coFactorTrue(id,x), 11) << "case, when table doesn't contain the cofactor and variable isn't TV, fails" << endl; // f, d = 1; result is (a+b)*c
+    EXPECT_TRUE(entry10 == manager.getNode(10)) << "case, when table doesn't contain the cofactor and variable isn't TV, fails" << endl;
+    EXPECT_TRUE(entry11 == manager.getNode(11)) << "case, when table doesn't contain the cofactor and variable isn't TV, fails" << endl;
+
+    id = 2;
+    x;
+    EXPECT_EQ(manager.coFactorTrue(id,manager.topVar(id)), manager.getNode(id).high) << "case, when variable it TV, fails" << endl;
+    
+    id = 1;
+    x  = 3;
+    EXPECT_EQ(manager.coFactorTrue(id,x), id) << "case, when f is terminal 1, fails" << endl;
+
+    id = 0;
+    x  = 3;
+    EXPECT_EQ(manager.coFactorTrue(id,x), id) << "case, when f is terminal 0, fails" << endl;
+
+    id = 3;
+    x  = 2;
+    EXPECT_EQ(manager.coFactorTrue(id,x), id) << "case, when function of node f does not depend on variable, fails" << endl;
+
+    id = 7;
+    x  = 5;
+    EXPECT_EQ(manager.coFactorTrue(id,x), 4) << "case, when table already contains the cofactor and variable isn't TV, fails" << endl; // c*d, d = 1; result is c
+}
+
+TEST_F(ManagerTest, coFactorFalse_specifying_variabel) //TODO: incomplete, last two checks are not implemented
+{
+    BDD_ID id = 2;
+    BDD_ID x;
+    EXPECT_EQ(manager.coFactorFalse(id,manager.topVar(id)), manager.getNode(id).low) << "case, when variable it TV, fails" << endl;
+    
+    id = 1;
+    x  = 3;
+    EXPECT_EQ(manager.coFactorFalse(id,x), id) << "case, when f is terminal 1, fails" << endl;
+
+    id = 0;
+    x  = 3;
+    EXPECT_EQ(manager.coFactorFalse(id,x), id) << "case, when f is terminal 0, fails" << endl;
+
+    id = 3;
+    x  = 2;
+    EXPECT_EQ(manager.coFactorFalse(id,x), id) << "case, when function of node f does not depend on variable, fails" << endl;
+
+    id = 6;
+    x  = 3;
+    EXPECT_EQ(manager.coFactorFalse(id,x), 2) << "case, when table already contains the cofactor and variable isn't TV, fails" << endl; // a+b, b = 1; result is a
+
+    id = 9;
+    x  = 3;
+    TableEntry entry10 = {"placeHodler",   10, 7, 0, 2};
+    EXPECT_EQ(manager.coFactorFalse(id,x), 10) << "case, when table doesn't contain the cofactor and variable isn't TV, fails" << endl; // f, d = 1; result is (a+b)*c
+    EXPECT_TRUE(entry10 == manager.getNode(10)) << "case, when table doesn't contain the cofactor and variable isn't TV, fails" << endl;
+}
+
+
+TEST_F(ManagerTest, ite) //
+{  
+    BDD_ID i = 1, t = 3, e = 4;
+    EXPECT_EQ(manager.ite(i,t,e), t) << "case, when i is 1, fails";
+
+    i = 0, t = 3, e = 4;
+    EXPECT_EQ(manager.ite(i,t,e), e) << "case, when i is 0, fails";
+
+    i = 0, t = 6, e = 6;
+    EXPECT_EQ(manager.ite(i,t,e), t) << "case, when t = e, fails";
+
+    i = 7, t = 1, e = 0;
+    EXPECT_EQ(manager.ite(i,t,e), i) << "case, when {t,e} = {1,0}, fails";
+   
+    i = 2, t = 1, e = 3;
+
+    size_t cashSizeChange = manager.cashNodeSize(); // intially cash is empty
+
+    BDD_ID r = manager.ite(i,t,e);
+
+    cashSizeChange = manager.cashNodeSize() - cashSizeChange; // ite updated cash and increased number of entries by 1.
+    CashEntry expectedEntry = {i, t, e, r};
+    CashEntry actualEntry = manager.getCashNode(0);
+
+    // The following three check proves that ite works correctly and cash is correctly updated
+    EXPECT_EQ(cashSizeChange, 1) << "cash was not updated"; 
+    EXPECT_TRUE(r == manager.getCashNode(0).r) << "case when cash is not correctly updated. r is incorectly stored";
+    EXPECT_TRUE(manager.getCashNode(0) == expectedEntry) << "case when cash is not correctly updated. i,t,e are incorrect";
+
+    cashSizeChange = manager.cashNodeSize() - cashSizeChange; // since we call the same ite, cash size should not change. if cashsizeChange is 0, result was read from cahs
+
+    r = manager.ite(i,t,e);
+    EXPECT_EQ(cashSizeChange, 0);
+    EXPECT_EQ(r,expectedEntry.r); // prove that result, read from cash, is correct
+}
 
 #endif
