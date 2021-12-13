@@ -9,6 +9,10 @@
 #include <iostream>
 #include <vector>
 
+/*NODE Structure {label, id, high, low, topVar}*/
+#define NODE_FALSE {"False", 0, 0, 0, 0}
+#define NODE_TRUE  {"True",  1, 1, 1, 1}
+
 using namespace std;
 
 namespace ClassProject 
@@ -36,6 +40,7 @@ class Manager: public ManagerInterface
 {
 public:
     Manager();
+    Manager(vector<TableEntry> uniqueTable);
     ~Manager();
 
     BDD_ID createVar(const string &label);
@@ -86,7 +91,6 @@ public:
 
 private:
     vector<TableEntry> uniqueTable;
-    
 };
 }
 

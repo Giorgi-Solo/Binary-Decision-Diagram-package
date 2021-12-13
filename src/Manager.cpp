@@ -5,8 +5,14 @@ using namespace ClassProject;
 
 Manager::Manager()
 {
-    uniqueTable.push_back({"False", 0, 0, 0, 0});
-    uniqueTable.push_back({"True", 1, 1, 1, 1});
+    uniqueTable.push_back(NODE_FALSE);
+    uniqueTable.push_back(NODE_TRUE);
+}
+
+Manager::Manager(vector<TableEntry> uniqueTable)
+{
+    // TODO: Check for incorrect uniqueTable?
+    this->uniqueTable = uniqueTable;
 }
 
 Manager::~Manager()
@@ -25,7 +31,7 @@ BDD_ID Manager::createVar(const string &label)
         if(uniqueTable.at(i).label == label)
             return i;
             
-    uniqueTable.push_back({label,newVarId,1,0,newVarId});
+    uniqueTable.push_back({label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)});
     return newVarId; 
 }
 
@@ -103,13 +109,45 @@ BDD_ID Manager::xnor2(BDD_ID a, BDD_ID b)
 {}
 
 string Manager::getTopVarName(const BDD_ID &root)
-{}
+{
+    return getNode(uniqueTable.at(root).topVar).label;
+}
 
 void Manager::findNodes(const BDD_ID &root, set<BDD_ID> &nodes_of_root)
-{}
+{
+    if ((nodes_of_root.insert(root)).second == false)
+    { 
+        return; // root is already in set 
+    }
+    
+    for (const auto &nextNode: {uniqueTable.at(root).high, uniqueTable.at(root).low})
+    {
+
+        if(nextNode > 1) // check if it is not terminal node (node.high != 0 && node.high != 1)
+        {
+            findNodes(nextNode, nodes_of_root);
+        }
+        else
+        {
+            nodes_of_root.insert(nextNode);
+        }
+    }
+}
 
 void Manager::findVars(const BDD_ID &root, set<BDD_ID> &vars_of_root)
-{}
+{    
+    set<BDD_ID> nodes_of_root;
+    findNodes(root, nodes_of_root);
+
+    //the True and False node should not be in vars_of_root
+    nodes_of_root.erase(1);
+    nodes_of_root.erase(0);
+
+    for(const auto &i : nodes_of_root)
+    {
+        vars_of_root.insert(getNode(i).topVar);
+    }
+}
 
 size_t Manager::uniqueTableSize()
 {
