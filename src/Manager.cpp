@@ -82,7 +82,9 @@ BDD_ID Manager::coFactorFalse(BDD_ID f, BDD_ID x)
 {}
 
 BDD_ID Manager::coFactorTrue(BDD_ID f)
-{}
+{
+    return uniqueTable.at(f).high;
+}
 
 BDD_ID Manager::coFactorFalse(BDD_ID f)
 {}
