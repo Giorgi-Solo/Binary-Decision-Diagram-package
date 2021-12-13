@@ -62,5 +62,15 @@ TEST_F(ManagerTest, coFactorTrue)
     } 
 }
 
+TEST_F(ManagerTest, coFactorFalse)
+{  // decision variable is top variable
+    BDD_ID id;
+
+    for(id = 0; id < manager.uniqueTableSize(); ++id)
+    {
+        EXPECT_EQ(manager.coFactorFalse(id), manager.getNode(id).low) << "Method not implemented" << endl;
+    } 
+}
+
 
 #endif
