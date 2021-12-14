@@ -129,7 +129,7 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
         return r;
     else
     {
-        topVars = {0,1,uniqueTable.at(i).topVar, uniqueTable.at(t).topVar, uniqueTable.at(e).topVar}; // TODO:: maybe adding 0,1 is not necessary
+        topVars = {uniqueTable.at(i).topVar, uniqueTable.at(t).topVar, uniqueTable.at(e).topVar}; // TODO:: maybe adding 0,1 is not necessary
         topVars.erase(0);
         topVars.erase(1);
         topVar = *(--topVars.rend()); // topvar has is the variable with lowest id,  because that is the highest variable
