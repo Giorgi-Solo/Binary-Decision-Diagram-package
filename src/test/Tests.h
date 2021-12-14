@@ -208,12 +208,54 @@ TEST(Manager, logicalOperations)
     manager.createVar("b");
 
     EXPECT_TRUE(manager.or2(2,3)   == manager.ite(2,1,3)) << "or fails";
+    EXPECT_TRUE(manager.or2(1,3)   == 1) << "or fails (1,3)";
+    EXPECT_TRUE(manager.or2(3,1)   == 1) << "or fails (3,1)";
+    EXPECT_TRUE(manager.or2(0,3)   == 3) << "or fails (0,3)";
+    EXPECT_TRUE(manager.or2(3,0)   == 3) << "or fails (3,0)";
+    EXPECT_TRUE(manager.or2(0,0)   == 0) << "or fails (3,0)";
+    EXPECT_TRUE(manager.or2(1,1)   == 1) << "or fails (3,0)";
+
     EXPECT_TRUE(manager.and2(2,3)  == manager.ite(2,3,0)) << "and fails";
+    EXPECT_TRUE(manager.and2(1,3)  == 3) << "and fails (1,3)";
+    EXPECT_TRUE(manager.and2(3,1)  == 3) << "and fails (3,1)";
+    EXPECT_TRUE(manager.and2(0,3)  == 0) << "and fails (0,3)";
+    EXPECT_TRUE(manager.and2(3,0)  == 0) << "and fails (3,0)";
+    EXPECT_TRUE(manager.and2(1,1)  == 1) << "and fails (3,0)";
+    EXPECT_TRUE(manager.and2(0,0)  == 0) << "and fails (3,0)";
+    
+
     EXPECT_TRUE(manager.neg(2)     == manager.ite(2,0,1)) << "neg fails";
+    EXPECT_TRUE(manager.neg(0)     == 1) << "neg fails";
+    EXPECT_TRUE(manager.neg(1)     == 0) << "neg fails";
+
     EXPECT_TRUE(manager.xor2(2,3)  == manager.ite(2,manager.neg(3),3)) << "xor  fails";
+    EXPECT_TRUE(manager.xor2(1,0)  == 1) << "xor  fails";
+    EXPECT_TRUE(manager.xor2(0,1)  == 1) << "xor  fails";
+    EXPECT_TRUE(manager.xor2(1,3)  == manager.neg(3)) << "xor  fails";
+    EXPECT_TRUE(manager.xor2(3,3)  == 0) << "xor  fails";
+    EXPECT_TRUE(manager.xor2(1,1)  == 0) << "xor  fails";
+    EXPECT_TRUE(manager.xor2(0,0)  == 0) << "xor  fails";
+
     EXPECT_TRUE(manager.nand2(2,3) == manager.neg(manager.and2(2,3)))  << "nand fails";
+    EXPECT_TRUE(manager.nand2(1,1) == 0)  << "nand fails";
+    EXPECT_TRUE(manager.nand2(1,0) == 1)  << "nand fails";
+    EXPECT_TRUE(manager.nand2(0,1) == 1)  << "nand fails";
+    EXPECT_TRUE(manager.nand2(0,0) == 1)  << "nand fails";
+
     EXPECT_TRUE(manager.nor2(2,3)  == manager.neg(manager.or2(2,3)))   << "nor  fails";
+    EXPECT_TRUE(manager.nor2(0,0)  == 1)   << "nor  fails";
+    EXPECT_TRUE(manager.nor2(1,0)  == 0)   << "nor  fails";
+    EXPECT_TRUE(manager.nor2(0,1)  == 0)   << "nor  fails";
+    EXPECT_TRUE(manager.nor2(1,1)  == 0)   << "nor  fails";
+
     EXPECT_TRUE(manager.xnor2(2,3) == manager.neg(manager.xor2(2,3)))  << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(1,0)  == 0) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(0,1)  == 0) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(0,0)  == 1) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(1,1)  == 1) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(1,3)  == 3) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(3,1)  == 3) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(3,3)  == 1) << "xnor  fails";
 }
 
 
