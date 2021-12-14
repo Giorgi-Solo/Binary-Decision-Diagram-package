@@ -199,4 +199,22 @@ TEST_F(ManagerTest, cashNodeSize)
    
     EXPECT_TRUE(manager.cashNodeSize() == 1) << "can't read cash size" << endl;
 }
+
+TEST(Manager, logicalOperations)
+{
+    Manager manager;
+
+    manager.createVar("a");
+    manager.createVar("b");
+
+    EXPECT_TRUE(manager.or2(2,3)   == manager.ite(2,1,3)) << "or fails";
+    EXPECT_TRUE(manager.and2(2,3)  == manager.ite(2,3,0)) << "and fails";
+    EXPECT_TRUE(manager.neg(2)     == manager.ite(2,0,1)) << "neg fails";
+    EXPECT_TRUE(manager.xor2(2,3)  == manager.ite(2,manager.neg(3),3)) << "xor  fails";
+    EXPECT_TRUE(manager.nand2(2,3) == manager.neg(manager.and2(2,3)))  << "nand fails";
+    EXPECT_TRUE(manager.nor2(2,3)  == manager.neg(manager.or2(2,3)))   << "nor  fails";
+    EXPECT_TRUE(manager.xnor2(2,3) == manager.neg(manager.xor2(2,3)))  << "xnor  fails";
+}
+
+
 #endif
