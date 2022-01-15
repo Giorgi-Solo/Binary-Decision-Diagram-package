@@ -8,6 +8,7 @@
 #include "ManagerInterface.h"
 #include <iostream>
 #include <vector>
+#include <bits/stdc++.h>
 
 /*NODE Structure {label, id, high, low, topVar}*/
 #define NODE_FALSE {"False", 0, 0, 0, 0}
@@ -17,18 +18,32 @@ using namespace std;
 
 namespace ClassProject 
 {
+    struct CashEntry
+    {
+        BDD_ID f;
+        BDD_ID g;
+        BDD_ID h;
+        BDD_ID r;
+
+        bool operator == (CashEntry c2) 
+        {
+            return (f == c2.f) &&
+                    (g == c2.g) &&
+                    (h == c2.h);
+        }
+    };
 
     struct TableEntry
     {
         string label;
         BDD_ID id;
-        uint16_t high;
-        uint16_t low;
-        uint16_t topVar;
+        BDD_ID high;
+        BDD_ID low;
+        BDD_ID topVar;
         
         bool operator == (TableEntry c2) 
         {
-            return (label == c2.label) &&
+            return //(label == c2.label) &&
                     (id == c2.id) &&
                     (high == c2.high) &&
                     (low == c2.low) &&
@@ -89,7 +104,18 @@ public:
     
     TableEntry getNode(const BDD_ID id);
 
-private:
+    BDD_ID add_node(TableEntry entry);
+
+    CashEntry getCashNode(const BDD_ID id);
+    
+    size_t cashNodeSize();
+ 
+ private:
+
+    bool findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BDD_ID &r);
+    BDD_ID find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low, const BDD_ID r_high);
+    
+    vector<CashEntry> computedTable;
     vector<TableEntry> uniqueTable;
 };
 }
