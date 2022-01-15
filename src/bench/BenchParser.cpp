@@ -20,13 +20,13 @@ BenchParser::BenchParser(const std::string &bench_file) {
         TopologicalSortKahnsAlgorithm();
         std::cout << "Done!" << std::endl;
 
-        // label_to_node.clear();
-        // labels_to_id.clear();
-        // id_to_circuit_node.clear();
-        // output_labels.clear();
-        // ff_labels.clear();
-        // output_circuits.clear();
-        // input_circuits.clear();
+        label_to_node.clear();
+        labels_to_id.clear();
+        id_to_circuit_node.clear();
+        output_labels.clear();
+        ff_labels.clear();
+        output_circuits.clear();
+        input_circuits.clear();
     } else {
         throw std::runtime_error("Please check bench file syntax!");
     }
@@ -434,7 +434,7 @@ void BenchParser::TopologicalSortKahnsAlgorithm() {
         /* Always pick the first element of the list of nodes without incoming edges */
         node = GetCircuitNode(*it);
         nodes_without_outgoing_edges.erase(it);
-        
+
         /* Nodes are added always to the end of the list */
         sorted_circuit.push_front(node);
         for (auto it_input_nodes = node.input_id_list.begin();
@@ -444,8 +444,6 @@ void BenchParser::TopologicalSortKahnsAlgorithm() {
             }
         }
     }
-
-                std::cout << "Done!" << std::endl;
 
     if (sorted_circuit.size() != id_to_circuit_node.size()) {
         throw std::runtime_error("The circuit must be cycle free!");
