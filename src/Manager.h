@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <bits/stdc++.h>
+#include<boost/functional/hash/hash.hpp>
 
 /*NODE Structure {label, id, high, low, topVar}*/
 #define NODE_FALSE {"False", 0, 0, 0, 0}
@@ -23,9 +24,9 @@ namespace ClassProject
         BDD_ID f;
         BDD_ID g;
         BDD_ID h;
-        BDD_ID r;
+        // BDD_ID r;
 
-        bool operator == (CashEntry c2) 
+        bool operator == (const CashEntry& c2) const
         {
             return (f == c2.f) &&
                     (g == c2.g) &&
@@ -41,7 +42,7 @@ namespace ClassProject
         BDD_ID low;
         BDD_ID topVar;
         
-        bool operator == (TableEntry c2) 
+        bool operator == (const TableEntry& c2) const
         {
             return //(label == c2.label) &&
                     (id == c2.id) &&
@@ -51,6 +52,29 @@ namespace ClassProject
         }
     };
 
+    struct CashEntryHash
+    {
+        size_t operator()(const CashEntry& cashEntry) const
+        {
+            std::size_t seed = 0;
+            boost::hash_combine(seed, boost::hash_value(cashEntry.f));
+            boost::hash_combine(seed, boost::hash_value(cashEntry.g));
+            boost::hash_combine(seed, boost::hash_value(cashEntry.h));
+            return seed;
+        }
+    };
+
+    struct TableEntryHash
+    {
+        size_t operator()(const TableEntry& tableEntry) const
+        {
+            std::size_t seed = 0;
+            boost::hash_combine(seed, boost::hash_value(tableEntry.high));
+            boost::hash_combine(seed, boost::hash_value(tableEntry.low));
+            boost::hash_combine(seed, boost::hash_value(tableEntry.topVar));
+            return seed;
+        }
+    };
 class Manager: public ManagerInterface
 {
 public:
@@ -106,8 +130,9 @@ public:
 
     BDD_ID add_node(TableEntry entry);
 
-    CashEntry getCashNode(const BDD_ID id);
-    
+    // CashEntry getCashNode(const BDD_ID id);
+    BDD_ID getCashNode1(const BDD_ID f, const BDD_ID g, const BDD_ID h);
+
     size_t cashNodeSize();
  
  private:
@@ -115,8 +140,10 @@ public:
     bool findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BDD_ID &r);
     BDD_ID find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low, const BDD_ID r_high);
     
-    vector<CashEntry> computedTable;
+    // vector<CashEntry> computedTable;
     vector<TableEntry> uniqueTable;
+    unordered_map<TableEntry, BDD_ID, TableEntryHash> reverseUniqueTable;
+    unordered_map<CashEntry, BDD_ID, CashEntryHash> reverseComputedTable;
 };
 }
 

@@ -7,12 +7,19 @@ Manager::Manager()
 {
     uniqueTable.push_back(NODE_FALSE);
     uniqueTable.push_back(NODE_TRUE);
+    reverseUniqueTable[NODE_FALSE] = 0;
+    reverseUniqueTable[NODE_TRUE] = 1;
 }
 
 Manager::Manager(vector<TableEntry> uniqueTable)
 {
     // TODO: Check for incorrect uniqueTable?
     this->uniqueTable = uniqueTable;
+    int i;
+    for (i = 0; i < uniqueTable.size(); i++)
+    {
+        reverseUniqueTable[uniqueTable.at(i)] = uniqueTable.at(i).id;
+    }
 }
 
 Manager::~Manager()
@@ -32,6 +39,7 @@ BDD_ID Manager::createVar(const string &label)
             return i;
             
     uniqueTable.push_back({label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)});
+    reverseUniqueTable[{label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)}] = newVarId;
     return newVarId; 
 }
 
@@ -77,15 +85,20 @@ BDD_ID Manager::topVar(BDD_ID f)
 bool Manager::findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BDD_ID &r)
 {
     BDD_ID id;
-    CashEntry tmp = {i, t, e, r};
+    CashEntry tmp = {i, t, e};
 
-    for(id = 0; id < computedTable.size(); ++id)
+    if (reverseComputedTable.count(tmp))
     {
-        if(tmp == computedTable.at(id)){
-            r = computedTable.at(id).r;
-            return true;
-        }
+        r = reverseComputedTable[tmp];
+        return true;
     }
+    // for(id = 0; id < computedTable.size(); ++id)
+    // {
+    //     if(tmp == computedTable.at(id)){
+    //         r = computedTable.at(id).r;
+    //         return true;
+    //     }
+    // }
 
     return false;
 }
@@ -95,15 +108,22 @@ BDD_ID Manager::find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low
     TableEntry tmp = {"placeHolder", 0, r_high, r_low, topVar};
 
     BDD_ID id;
-    for(id = 0; id < uniqueTableSize(); ++id){
-        tmp.label = uniqueTable.at(id).label;
-        tmp.id = uniqueTable.at(id).id;
+    // for(id = 0; id < uniqueTableSize(); ++id){
+    //     tmp.label = uniqueTable.at(id).label;
+    //     tmp.id = uniqueTable.at(id).id;
 
-        if(tmp == uniqueTable.at(id))
-            return uniqueTable.at(id).id;
+    //     if(tmp == uniqueTable.at(id))
+    //         return uniqueTable.at(id).id;
+    // }
+    //TODO aici e o problema mare partea de sus merge dar if ul de jos nu 
+    if (reverseUniqueTable.count(tmp))
+    {
+        return static_cast<BDD_ID>(reverseUniqueTable[tmp]);
     }
     
+    id = uniqueTableSize();
     uniqueTable.push_back({"ITE Result", id, r_high, r_low, topVar}); // when loop breaks, id = uniqueTableSize, which is id of the next entry
+    reverseUniqueTable[{"ITE Result", id, r_high, r_low, topVar}] = id;
     return id;
 }
 
@@ -125,7 +145,7 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
         return t;   
     else if((t == static_cast<BDD_ID>(1))&&( e == static_cast<BDD_ID>(0)))
         return i;
-    else if(!computedTable.empty() && findComputedIte(i,t,e,r)) // We check computedTable if it is not empty
+    else if(/*!computedTable.empty()*/ !reverseComputedTable.empty() && findComputedIte(i,t,e,r)) // We check computedTable if it is not empty
         return r;
     else
     {
@@ -142,7 +162,8 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
         
         r = find_or_add_unique_table(topVar, r_low, r_high);
 
-        computedTable.push_back({i, t, e, r});
+        // computedTable.push_back({i, t, e});
+        reverseComputedTable[{i, t, e}] = r;
         return r;
     }
 }
@@ -279,15 +300,21 @@ TableEntry Manager::getNode(const BDD_ID id)
 BDD_ID Manager::add_node(TableEntry entry)
 {
      uniqueTable.push_back(entry);
+     reverseUniqueTable[entry] = entry.id;
      return entry.id;
 };
 
-CashEntry Manager::getCashNode(const BDD_ID id)
+// CashEntry Manager::getCashNode(const BDD_ID id)
+// {
+//     return computedTable.at(id);
+// };
+
+BDD_ID Manager::getCashNode1(const BDD_ID f, const BDD_ID g, const BDD_ID h)
 {
-    return computedTable.at(id);
+    return reverseComputedTable[{f,g,h}];
 };
 
 size_t Manager::cashNodeSize()
 {
-    return computedTable.size();
+    return reverseComputedTable.size();
 };
