@@ -23,8 +23,8 @@ jobs:
         sudo cmake CMakeLists.txt
         sudo make
     
-#     - name: Install Boost
-#       run: sudo apt-get update && sudo apt-get install libboost-all-dev
+    - name: Install Boost
+      run: sudo apt-get update && sudo apt-get install libboost-all-dev
       
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
