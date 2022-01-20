@@ -255,8 +255,8 @@ TEST(Manager, logicalOperations)
     EXPECT_TRUE(manager.xnor2(0,1)  == 0) << "xnor  fails";
     EXPECT_TRUE(manager.xnor2(0,0)  == 1) << "xnor  fails";
     EXPECT_TRUE(manager.xnor2(1,1)  == 1) << "xnor  fails";
-    // EXPECT_TRUE(manager.xnor2(1,3)  == 3) << "xnor  fails";
-    // EXPECT_TRUE(manager.xnor2(3,1)  == 3) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(1,3)  == 3) << "xnor  fails";
+    EXPECT_TRUE(manager.xnor2(3,1)  == 3) << "xnor  fails";
     EXPECT_TRUE(manager.xnor2(3,3)  == 1) << "xnor  fails";
 }
 

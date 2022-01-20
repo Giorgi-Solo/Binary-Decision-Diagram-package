@@ -141,9 +141,13 @@ public:
     BDD_ID find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low, const BDD_ID r_high);
     
     // vector<CashEntry> computedTable;
+    // TODO make key as String:: make string(i + t + e)
+
     vector<TableEntry> uniqueTable;
-    unordered_map<TableEntry, BDD_ID, TableEntryHash> reverseUniqueTable;
-    unordered_map<CashEntry, BDD_ID, CashEntryHash> reverseComputedTable;
+    // unordered_map<TableEntry, BDD_ID, TableEntryHash> reverseUniqueTable;
+    // unordered_map<CashEntry, BDD_ID, CashEntryHash> reverseComputedTable;
+    unordered_map<string, BDD_ID> reverseUniqueTable;
+    unordered_map<string, BDD_ID> reverseComputedTable;
 };
 }
 

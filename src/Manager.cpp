@@ -7,8 +7,11 @@ Manager::Manager()
 {
     uniqueTable.push_back(NODE_FALSE);
     uniqueTable.push_back(NODE_TRUE);
-    reverseUniqueTable[NODE_FALSE] = 0;
-    reverseUniqueTable[NODE_TRUE] = 1;
+    // reverseUniqueTable[NODE_FALSE] = 0;
+    // reverseUniqueTable[NODE_TRUE] = 1;
+
+    reverseUniqueTable[{to_string(0)+'|'+to_string(0)+'|'+to_string(0)}] = 0;
+    reverseUniqueTable[{to_string(1)+'|'+to_string(1)+'|'+to_string(1)}] = 1;
 }
 
 Manager::Manager(vector<TableEntry> uniqueTable)
@@ -18,7 +21,8 @@ Manager::Manager(vector<TableEntry> uniqueTable)
     int i;
     for (i = 0; i < uniqueTable.size(); i++)
     {
-        reverseUniqueTable[uniqueTable.at(i)] = uniqueTable.at(i).id;
+        // reverseUniqueTable[uniqueTable.at(i)] = uniqueTable.at(i).id;
+        reverseUniqueTable[{to_string(uniqueTable.at(i).high)+'|'+to_string(uniqueTable.at(i).low)+'|'+to_string(uniqueTable.at(i).topVar)}] = uniqueTable.at(i).id;
     }
 }
 
@@ -39,7 +43,9 @@ BDD_ID Manager::createVar(const string &label)
             return i;
             
     uniqueTable.push_back({label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)});
-    reverseUniqueTable[{label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)}] = newVarId;
+    // reverseUniqueTable[{label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)}] = newVarId;
+    reverseUniqueTable[{to_string(1)+'|'+to_string(0)+'|'+to_string(newVarId)}] = newVarId;
+
     return newVarId; 
 }
 
@@ -87,9 +93,11 @@ bool Manager::findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BD
     BDD_ID id;
     CashEntry tmp = {i, t, e};
 
-    if (reverseComputedTable.count(tmp))
+    // if (reverseComputedTable.count({to_string(i)+'|'+to_string(t)+'|'+to_string(e)}))
+    if (reverseComputedTable.count({to_string(i)+'|'+to_string(t)+'|'+to_string(e)}))
     {
-        r = reverseComputedTable[tmp];
+        // r = reverseComputedTable[tmp];
+        r = reverseComputedTable[{to_string(i)+'|'+to_string(t)+'|'+to_string(e)}];
         return true;
     }
     // for(id = 0; id < computedTable.size(); ++id)
@@ -116,14 +124,19 @@ BDD_ID Manager::find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low
     //         return uniqueTable.at(id).id;
     // }
     //TODO aici e o problema mare partea de sus merge dar if ul de jos nu 
-    if (reverseUniqueTable.count(tmp))
+    // if (reverseUniqueTable.count(tmp))
+    if (reverseUniqueTable.count({to_string(r_high)+'|'+to_string(r_low)+'|'+to_string(topVar)}))
     {
-        return static_cast<BDD_ID>(reverseUniqueTable[tmp]);
+        // return static_cast<BDD_ID>(reverseUniqueTable[tmp]);
+            return static_cast<BDD_ID>(reverseUniqueTable[{to_string(r_high)+'|'+to_string(r_low)+'|'+to_string(topVar)}]);
+
     }
     
     id = uniqueTableSize();
     uniqueTable.push_back({"ITE Result", id, r_high, r_low, topVar}); // when loop breaks, id = uniqueTableSize, which is id of the next entry
-    reverseUniqueTable[{"ITE Result", id, r_high, r_low, topVar}] = id;
+    // reverseUniqueTable[{"ITE Result", id, r_high, r_low, topVar}] = id;
+    reverseUniqueTable[{to_string(r_high)+'|'+to_string(r_low)+'|'+to_string(topVar)}] = id;
+
     return id;
 }
 
@@ -163,7 +176,7 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
         r = find_or_add_unique_table(topVar, r_low, r_high);
 
         // computedTable.push_back({i, t, e});
-        reverseComputedTable[{i, t, e}] = r;
+        reverseComputedTable[{to_string(i)+'|'+to_string(t)+'|'+to_string(e)}] = r;
         return r;
     }
 }
@@ -300,18 +313,22 @@ TableEntry Manager::getNode(const BDD_ID id)
 BDD_ID Manager::add_node(TableEntry entry)
 {
      uniqueTable.push_back(entry);
-     reverseUniqueTable[entry] = entry.id;
+    //  reverseUniqueTable[entry] = entry.id;
+    // reverseUniqueTable[entry] = entry.id;
+    reverseUniqueTable[{to_string(entry.high)+'|'+to_string(entry.low)+'|'+to_string(entry.topVar)}] = entry.id;
      return entry.id;
 };
 
 // CashEntry Manager::getCashNode(const BDD_ID id)
 // {
-//     return computedTable.at(id);
+//     // return computedTable.at(id);
 // };
 
 BDD_ID Manager::getCashNode1(const BDD_ID f, const BDD_ID g, const BDD_ID h)
 {
-    return reverseComputedTable[{f,g,h}];
+    // return reverseComputedTable[{f,g,h}];
+    return reverseComputedTable[{to_string(f)+'|'+to_string(g)+'|'+to_string(h)}];
+
 };
 
 size_t Manager::cashNodeSize()
