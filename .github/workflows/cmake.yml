@@ -53,9 +53,9 @@ jobs:
     - name: Run VDSProject_bench
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ${{runner.workspace}}/build/src/test/VDSProject_bench  ${{runner.workspace}}/benchmarks/iscas85/c3540.bench
+      run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/benchmarks/iscas85/c3540.bench
 
-      - name: Build VDSProject_verify
+    - name: Build VDSProject_verify
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: cmake --build . --config $BUILD_TYPE --target VDSProject_verify
@@ -63,7 +63,7 @@ jobs:
     - name: Run VDSProject_verify
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ${{runner.workspace}}/build/src/test/VDSProject_verify  ${{runner.workspace}}/doc/expectedResults/results_c3540/txt/1713.txt ${{runner.workspace}}/results_c3540/txt/1713.txt
+      run: ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/doc/expectedResults/results_c3540/txt/1713.txt ${{runner.workspace}}/results_c3540/txt/1713.txt
       
 #     - name: Build VDSProject_reachability
 #       working-directory: ${{runner.workspace}}/build
