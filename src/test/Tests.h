@@ -183,15 +183,15 @@ TEST_F(ManagerTest, ite) //
 }
 
 TEST_F(ManagerTest, getCashNode)
-{  
+{   
+    EXPECT_TRUE(0 == manager.cashNodeSize()) << "cash is not empty" << endl;
+
     BDD_ID f = 4, g = 3, h = 0;
     BDD_ID r = manager.ite(f, g, h);
-    CashEntry key = {f, g, h};
+    string key = {to_string(f)+'|'+to_string(g)+'|'+to_string(h)};
    
-    // EXPECT_TRUE(key == manager.getCashNode(0)) << "f, g, h are not correctly retrieved" << endl;
-    // EXPECT_TRUE(r == manager.getCashNode(0).r) << "r is not correctly retrieved";
-    // EXPECT_TRUE(r == manager.getCashNode1(f,g,h)) << "r is not correctly retrieved";
-
+    EXPECT_TRUE(1 == manager.cashNodeSize()) << "cash is not updated" << endl;
+    EXPECT_TRUE(r == manager.getCashNode(key)) << "r is not correctly retrieved";
 }
 
 TEST_F(ManagerTest, cashNodeSize)
