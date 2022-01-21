@@ -130,8 +130,7 @@ public:
 
     BDD_ID add_node(TableEntry entry);
 
-    // CashEntry getCashNode(const BDD_ID id);
-    BDD_ID getCashNode1(const BDD_ID f, const BDD_ID g, const BDD_ID h);
+    BDD_ID getCashNode(const string key);
 
     size_t cashNodeSize();
  

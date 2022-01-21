@@ -319,17 +319,11 @@ BDD_ID Manager::add_node(TableEntry entry)
      return entry.id;
 };
 
-// CashEntry Manager::getCashNode(const BDD_ID id)
-// {
-//     // return computedTable.at(id);
-// };
-
-BDD_ID Manager::getCashNode1(const BDD_ID f, const BDD_ID g, const BDD_ID h)
+BDD_ID Manager::getCashNode(const string key)
 {
-    // return reverseComputedTable[{f,g,h}];
-    return reverseComputedTable[{to_string(f)+'|'+to_string(g)+'|'+to_string(h)}];
-
+    return reverseComputedTable.at(key);
 };
+
 
 size_t Manager::cashNodeSize()
 {
