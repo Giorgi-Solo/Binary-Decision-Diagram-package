@@ -10,8 +10,8 @@ Manager::Manager()
     // reverseUniqueTable[NODE_FALSE] = 0;
     // reverseUniqueTable[NODE_TRUE] = 1;
 
-    reverseUniqueTable[{to_string(0)+'|'+to_string(0)+'|'+to_string(0)}] = 0;
-    reverseUniqueTable[{to_string(1)+'|'+to_string(1)+'|'+to_string(1)}] = 1;
+    reverseUniqueTable[to_key(0, 0, 0)] = 0;
+    reverseUniqueTable[to_key(1, 1, 1)] = 1;
 }
 
 Manager::Manager(vector<TableEntry> uniqueTable)
@@ -22,7 +22,7 @@ Manager::Manager(vector<TableEntry> uniqueTable)
     for (i = 0; i < uniqueTable.size(); i++)
     {
         // reverseUniqueTable[uniqueTable.at(i)] = uniqueTable.at(i).id;
-        reverseUniqueTable[{to_string(uniqueTable.at(i).high)+'|'+to_string(uniqueTable.at(i).low)+'|'+to_string(uniqueTable.at(i).topVar)}] = uniqueTable.at(i).id;
+        reverseUniqueTable[to_key(uniqueTable.at(i).high, uniqueTable.at(i).low, uniqueTable.at(i).topVar)] = uniqueTable.at(i).id;
     }
 }
 
@@ -44,7 +44,7 @@ BDD_ID Manager::createVar(const string &label)
             
     uniqueTable.push_back({label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)});
     // reverseUniqueTable[{label, newVarId, 1, 0, static_cast<uint16_t>(newVarId)}] = newVarId;
-    reverseUniqueTable[{to_string(1)+'|'+to_string(0)+'|'+to_string(newVarId)}] = newVarId;
+    reverseUniqueTable[to_key(1, 0, newVarId)] = newVarId;
 
     return newVarId; 
 }
@@ -92,12 +92,12 @@ bool Manager::findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BD
 {
     BDD_ID id;
     CashEntry tmp = {i, t, e};
-
+    string keyTmp = to_key(i, t, e);
     // if (reverseComputedTable.count({to_string(i)+'|'+to_string(t)+'|'+to_string(e)}))
-    if (reverseComputedTable.count({to_string(i)+'|'+to_string(t)+'|'+to_string(e)}))
+    if (reverseComputedTable.count(keyTmp))
     {
         // r = reverseComputedTable[tmp];
-        r = reverseComputedTable[{to_string(i)+'|'+to_string(t)+'|'+to_string(e)}];
+        r = reverseComputedTable[keyTmp];
         return true;
     }
     // for(id = 0; id < computedTable.size(); ++id)
@@ -125,17 +125,19 @@ BDD_ID Manager::find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low
     // }
     //TODO aici e o problema mare partea de sus merge dar if ul de jos nu 
     // if (reverseUniqueTable.count(tmp))
-    if (reverseUniqueTable.count({to_string(r_high)+'|'+to_string(r_low)+'|'+to_string(topVar)}))
+    string tmpKey = to_key(r_high, r_low, topVar);
+
+    if (reverseUniqueTable.count(tmpKey))
     {
         // return static_cast<BDD_ID>(reverseUniqueTable[tmp]);
-            return static_cast<BDD_ID>(reverseUniqueTable[{to_string(r_high)+'|'+to_string(r_low)+'|'+to_string(topVar)}]);
+            return static_cast<BDD_ID>(reverseUniqueTable[tmpKey]);
 
     }
     
     id = uniqueTableSize();
     uniqueTable.push_back({"ITE Result", id, r_high, r_low, topVar}); // when loop breaks, id = uniqueTableSize, which is id of the next entry
     // reverseUniqueTable[{"ITE Result", id, r_high, r_low, topVar}] = id;
-    reverseUniqueTable[{to_string(r_high)+'|'+to_string(r_low)+'|'+to_string(topVar)}] = id;
+    reverseUniqueTable[to_key(r_high, r_low, topVar)] = id;
 
     return id;
 }
@@ -176,7 +178,7 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
         r = find_or_add_unique_table(topVar, r_low, r_high);
 
         // computedTable.push_back({i, t, e});
-        reverseComputedTable[{to_string(i)+'|'+to_string(t)+'|'+to_string(e)}] = r;
+        reverseComputedTable[to_key(i, t, e)] = r;
         return r;
     }
 }
@@ -315,7 +317,7 @@ BDD_ID Manager::add_node(TableEntry entry)
      uniqueTable.push_back(entry);
     //  reverseUniqueTable[entry] = entry.id;
     // reverseUniqueTable[entry] = entry.id;
-    reverseUniqueTable[{to_string(entry.high)+'|'+to_string(entry.low)+'|'+to_string(entry.topVar)}] = entry.id;
+    reverseUniqueTable[to_key(entry.high, entry.low, entry.topVar)] = entry.id;
      return entry.id;
 };
 
@@ -329,3 +331,14 @@ size_t Manager::cashNodeSize()
 {
     return reverseComputedTable.size();
 };
+
+inline string Manager::to_key(const BDD_ID x1, const BDD_ID x2, const BDD_ID x3)
+{
+    /*
+        |Name|UniqueTable|ComputeTable|
+        | x1 |   high    |     i      |
+        | x2 |   low     |     t      |
+        | x3 |  topVar   |     e      |
+    */
+    return {to_string(x1) + '|' + to_string(x2) + '|' + to_string(x3)};
+}

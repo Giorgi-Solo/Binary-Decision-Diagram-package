@@ -138,7 +138,8 @@ public:
 
     bool findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BDD_ID &r);
     BDD_ID find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low, const BDD_ID r_high);
-    
+    string to_key(const BDD_ID i, const BDD_ID t, const BDD_ID e);
+
     // vector<CashEntry> computedTable;
     // TODO make key as String:: make string(i + t + e)
 
