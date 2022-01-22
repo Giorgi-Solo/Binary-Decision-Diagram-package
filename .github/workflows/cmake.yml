@@ -56,13 +56,13 @@ jobs:
     - name: CheckWD
       run: ls
       
-    - name: CopyFiles
-      run: cp ${{runner.workspace}}/benchmarks/iscas85/c3540.bench ${{runner.workspace}}/build/src/bench/
+    # - name: CopyFiles
+    #   run: cp ${{runner.workspace}}/benchmarks/iscas85/c3540.bench ${{runner.workspace}}/build/src/bench/
       
     - name: Run VDSProject_bench
-      working-directory: ${{runner.workspace}}
+      working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/benchmarks/iscas85/c3540.bench
+      run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/VDSProject08/benchmarks/iscas85/c3540.bench
 
     - name: Build VDSProject_verify
       working-directory: ${{runner.workspace}}/build
