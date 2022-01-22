@@ -69,10 +69,13 @@ jobs:
       shell: bash
       run: cmake --build . --config $BUILD_TYPE --target VDSProject_verify
       
+    - name: CheckFiles2
+      run: find ${{runner.workspace}} -iname *1713*.txt
+
     - name: Run VDSProject_verify
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/doc/expectedResults/results_c3540/txt/1713.txt ${{runner.workspace}}/results_c3540/txt/1713.txt
+      run: ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/1713.txt ${{runner.workspace}}/results_c3540/txt/1713.txt
       
 #     - name: Build VDSProject_reachability
 #       working-directory: ${{runner.workspace}}/build
