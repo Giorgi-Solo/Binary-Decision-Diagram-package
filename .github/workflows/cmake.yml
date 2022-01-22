@@ -50,15 +50,13 @@ jobs:
       shell: bash
       run: cmake --build . --config $BUILD_TYPE --target VDSProject_bench
       
-    -name: CopyBench
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cp ../benchmarks/iscas85/c3540.bench /src/bench/
+    - name: CheckFiles
+      run: find ${{runner.workspace}} -iname *c3540*.bench
       
     - name: Run VDSProject_bench
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/build/src/bench/c3540.bench
+      run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/benchmarks/iscas85/c3540.bench
 
     - name: Build VDSProject_verify
       working-directory: ${{runner.workspace}}/build
