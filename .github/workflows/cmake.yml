@@ -35,26 +35,29 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
       
-    - name: Build VDSProject_test
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config $BUILD_TYPE --target VDSProject_test
+    # - name: Build VDSProject_test
+    #   working-directory: ${{runner.workspace}}/build
+    #   shell: bash
+    #   run: cmake --build . --config $BUILD_TYPE --target VDSProject_test
       
-    - name: Run VDSProject_test
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: ${{runner.workspace}}/build/src/test/VDSProject_test
+    # - name: Run VDSProject_test
+    #   working-directory: ${{runner.workspace}}/build
+    #   shell: bash
+    #   run: ${{runner.workspace}}/build/src/test/VDSProject_test
     
     - name: Build VDSProject_bench
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}
       shell: bash
       run: cmake --build . --config $BUILD_TYPE --target VDSProject_bench
       
     - name: CheckFiles
       run: find ${{runner.workspace}} -iname *c3540*.bench
+
+    - name: CheckWD
+      run: ls
       
     - name: Run VDSProject_bench
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}
       shell: bash
       run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/benchmarks/iscas85/c3540.bench
 
