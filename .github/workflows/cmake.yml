@@ -51,7 +51,7 @@ jobs:
       run: cmake --build . --config $BUILD_TYPE --target VDSProject_bench
       
     - name: Run VDSProject_bench
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}
       shell: bash
       run: ${{runner.workspace}}/build/src/bench/VDSProject_bench  ${{runner.workspace}}/benchmarks/iscas85/c3540.bench
 
