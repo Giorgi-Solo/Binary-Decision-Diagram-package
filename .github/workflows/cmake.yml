@@ -48,7 +48,7 @@ jobs:
     - name: Build VDSProject_bench
       working-directory: ${{runner.workspace}}
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE --target VDSProject_bench
+      run: cmake --build . --config $BUILD_TYPE --target build/VDSProject_bench
       
     - name: CheckFiles
       run: find ${{runner.workspace}} -iname *c3540*.bench
