@@ -64,20 +64,6 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run:  |
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/4028.txt ${{runner.workspace}}/build/results_c3540/txt/4028.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/4145.txt ${{runner.workspace}}/build/results_c3540/txt/4145.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/4589.txt ${{runner.workspace}}/build/results_c3540/txt/4589.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/4667.txt ${{runner.workspace}}/build/results_c3540/txt/4667.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/4815.txt ${{runner.workspace}}/build/results_c3540/txt/4815.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/4944.txt ${{runner.workspace}}/build/results_c3540/txt/4944.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5002.txt ${{runner.workspace}}/build/results_c3540/txt/5002.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5045.txt ${{runner.workspace}}/build/results_c3540/txt/5045.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5047.txt ${{runner.workspace}}/build/results_c3540/txt/5047.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5078.txt ${{runner.workspace}}/build/results_c3540/txt/5078.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5102.txt ${{runner.workspace}}/build/results_c3540/txt/5102.txt
-
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5120.txt ${{runner.workspace}}/build/results_c3540/txt/5120.txt
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5121.txt ${{runner.workspace}}/build/results_c3540/txt/5121.txt
        ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5192.txt ${{runner.workspace}}/build/results_c3540/txt/5192.txt
        ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5231.txt ${{runner.workspace}}/build/results_c3540/txt/5231.txt
        ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5360.txt ${{runner.workspace}}/build/results_c3540/txt/5360.txt
