@@ -64,7 +64,6 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run:  |
-       ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5192.txt ${{runner.workspace}}/build/results_c3540/txt/5192.txt
        ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5231.txt ${{runner.workspace}}/build/results_c3540/txt/5231.txt
        ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5360.txt ${{runner.workspace}}/build/results_c3540/txt/5360.txt
        ${{runner.workspace}}/build/src/verify/VDSProject_verify  ${{runner.workspace}}/VDSProject08/doc/expectedResults/results_c3540/txt/5361.txt ${{runner.workspace}}/build/results_c3540/txt/5361.txt
