@@ -116,7 +116,7 @@ TEST_F(ManagerTest, coFactorTrue_specifying_variabel) // //TODO: incomplete, las
     EXPECT_EQ(manager.coFactorTrue(id,x), 4) << "case, when table already contains the cofactor and variable isn't TV, fails" << endl; // c*d, d = 1; result is c
 }
 
-TEST_F(ManagerTest, coFactorFalse_specifying_variabel) //TODO: incomplete, last two checks are not implemented
+TEST_F(ManagerTest, coFactorFalse_specifying_variabel) 
 {
     BDD_ID id = 2;
     BDD_ID x;
@@ -162,34 +162,36 @@ TEST_F(ManagerTest, ite) //
    
     i = 2, t = 1, e = 3;
 
-    size_t cashSizeChange = manager.cashNodeSize(); // intially cash is empty
-
+    size_t cashSize = manager.cashNodeSize(); // get cash size
     BDD_ID r = manager.ite(i,t,e);
+    
+    size_t cashSizeChange = manager.cashNodeSize() - cashSize; // ite updated cash and increased number of entries by 1.
+    cashSize = manager.cashNodeSize(); // get new cashsize
 
-    cashSizeChange = manager.cashNodeSize() - cashSizeChange; // ite updated cash and increased number of entries by 1.
-    CashEntry expectedEntry = {i, t, e, r};
-    CashEntry actualEntry = manager.getCashNode(0);
+    string key = {to_string(i)+'|'+to_string(t)+'|'+to_string(e)};
+    BDD_ID result = manager.getCashNode(key); // this returns value that corresponds key in the map
 
-    // The following three check proves that ite works correctly and cash is correctly updated
+    // // The following three check proves that ite works correctly and cash is correctly updated
     EXPECT_EQ(cashSizeChange, 1) << "cash was not updated"; 
-    EXPECT_TRUE(r == manager.getCashNode(0).r) << "case when cash is not correctly updated. r is incorectly stored";
-    EXPECT_TRUE(manager.getCashNode(0) == expectedEntry) << "case when cash is not correctly updated. i,t,e are incorrect";
+    EXPECT_TRUE(r == result) << "case when cash is not correctly updated. r is incorectly stored";
 
-    cashSizeChange = manager.cashNodeSize() - cashSizeChange; // since we call the same ite, cash size should not change. if cashsizeChange is 0, result was read from cahs
+    r = manager.ite(i,t,e); // call the ite with same parameters
+    cashSizeChange = manager.cashNodeSize() - cashSize; // since we call the same ite, cash size should not change. if cashsizeChange is 0, result was read from cahs
 
-    r = manager.ite(i,t,e);
     EXPECT_EQ(cashSizeChange, 0);
-    EXPECT_EQ(r,expectedEntry.r); // prove that result, read from cash, is correct
+    EXPECT_TRUE(r == result) << "case when cash is not correctly updated. r is incorectly stored";
 }
 
 TEST_F(ManagerTest, getCashNode)
-{  
+{   
+    EXPECT_TRUE(0 == manager.cashNodeSize()) << "cash is not empty" << endl;
+
     BDD_ID f = 4, g = 3, h = 0;
     BDD_ID r = manager.ite(f, g, h);
-    CashEntry expectedEntry = {f, g, h, r};
+    string key = {to_string(f)+'|'+to_string(g)+'|'+to_string(h)};
    
-    EXPECT_TRUE(expectedEntry == manager.getCashNode(0)) << "f, g, h are not correctly retrieved" << endl;
-    EXPECT_TRUE(r == manager.getCashNode(0).r) << "r is not correctly retrieved";
+    EXPECT_TRUE(1 == manager.cashNodeSize()) << "cash is not updated" << endl;
+    EXPECT_TRUE(r == manager.getCashNode(key)) << "r is not correctly retrieved";
 }
 
 TEST_F(ManagerTest, cashNodeSize)
