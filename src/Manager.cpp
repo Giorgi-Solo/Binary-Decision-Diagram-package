@@ -36,6 +36,7 @@ BDD_ID Manager::createVar(const string &label)
     BDD_ID newVarId = uniqueTable.size();
     BDD_ID i;
 
+    // Come back here
     // for(i = 0; i < newVarId; ++i)          // to check if we already have that variable
     //     if(uniqueTable.at(i).label == label)
     //         return i;
