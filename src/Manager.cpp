@@ -7,8 +7,6 @@ Manager::Manager()
 {
     uniqueTable.push_back(NODE_FALSE);
     uniqueTable.push_back(NODE_TRUE);
-    // reverseUniqueTable[NODE_FALSE] = 0;
-    // reverseUniqueTable[NODE_TRUE] = 1;
 
     reverseUniqueTable[to_key(0, 0, 0)] = 0;
     reverseUniqueTable[to_key(1, 1, 1)] = 1;
@@ -37,12 +35,12 @@ BDD_ID Manager::createVar(const string &label)
 {
     BDD_ID newVarId = uniqueTable.size();
     BDD_ID i;
-    // Come back here
+
     // for(i = 0; i < newVarId; ++i)          // to check if we already have that variable
     //     if(uniqueTable.at(i).label == label)
     //         return i;
             
-    uniqueTable.push_back({label, newVarId, 1, 0, /*static_cast<uint16_t>*/(newVarId)});
+    uniqueTable.push_back({label, newVarId, 1, 0, newVarId});
     reverseUniqueTable[to_key(1, 0, newVarId)] = newVarId;
 
     return newVarId; 
@@ -51,13 +49,11 @@ BDD_ID Manager::createVar(const string &label)
 const BDD_ID& Manager::True()
 {
     return uniqueTable.at(1).id;
-    // return reverseUniqueTable[to_key(1,1,1)];
 }
 
 const BDD_ID& Manager::False()
 {
     return uniqueTable.at(0).id;
-    // return reverseUniqueTable[to_key(0,0,0)];
 }
 
 bool Manager::isConstant(BDD_ID f)
@@ -76,7 +72,7 @@ bool Manager::isVariable(BDD_ID x)
     if(x >= uniqueTableSize())
         return false;
         
-    if((uniqueTable.at(x).high == 1) && (uniqueTable.at(x).low == 0)) // cHECK IF BOOLEAN FUNCTION NODES SHOULD RETURN TRUE
+    if((uniqueTable.at(x).high == 1) && (uniqueTable.at(x).low == 0)) // check if boolean function nodes should return true
         return true;
     else
         return false;
@@ -93,7 +89,6 @@ bool Manager::findComputedIte(const BDD_ID i, const BDD_ID t, const BDD_ID e, BD
 {
     string keyTmp = to_key(i, t, e);
 
-    // if (reverseComputedTable.count(keyTmp))
     if (reverseComputedTable.find(keyTmp) != reverseComputedTable.end())
     {
         r = reverseComputedTable[keyTmp];
@@ -109,10 +104,9 @@ BDD_ID Manager::find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low
 
     string tmpKey = to_key(r_high, r_low, topVar);
 
-    // if (reverseUniqueTable.count(tmpKey))
     if (reverseUniqueTable.find(tmpKey) != reverseUniqueTable.end())
     {
-        return /*static_cast<BDD_ID>*/(reverseUniqueTable[tmpKey]);
+        return reverseUniqueTable[tmpKey];
     }
     
     id = uniqueTableSize();
@@ -132,15 +126,15 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
     set<BDD_ID> topVars;
     
     // 4 Terminal Cases
-    if(i == /*static_cast<BDD_ID>*/(1))
+    if(i == 1)
         return t;
-    else if(i == /*static_cast<BDD_ID>*/(0))
+    else if(i == 0)
         return e;
     else if(t == e)
         return t;   
-    else if((t == /*static_cast<BDD_ID>*/(1))&&( e == /*static_cast<BDD_ID>*/(0)))
+    else if((t == 1)&& (e == 0))
         return i;
-    else if(findComputedIte(i,t,e,r)) // We check computedTable if it is not empty
+    else if(findComputedIte(i,t,e,r))
         return r;
     else
     {
@@ -165,7 +159,6 @@ BDD_ID Manager::ite(BDD_ID i, BDD_ID t, BDD_ID e)
 BDD_ID Manager::coFactorTrue(BDD_ID f, BDD_ID x)
 {
     BDD_ID T, F;
-    // BDD_ID TpV = topVar(f);
     TableEntry tmp = uniqueTable.at(f);
 
     if(tmp.topVar == x)
@@ -296,11 +289,9 @@ TableEntry Manager::getNode(const BDD_ID id)
 
 BDD_ID Manager::add_node(TableEntry entry)
 {
-     uniqueTable.push_back(entry);
-    //  reverseUniqueTable[entry] = entry.id;
-    // reverseUniqueTable[entry] = entry.id;
+    uniqueTable.push_back(entry);
     reverseUniqueTable[to_key(entry.high, entry.low, entry.topVar)] = entry.id;
-     return entry.id;
+    return entry.id;
 };
 
 BDD_ID Manager::getCashNode(const string key)
