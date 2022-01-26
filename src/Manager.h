@@ -24,7 +24,6 @@ namespace ClassProject
         BDD_ID f;
         BDD_ID g;
         BDD_ID h;
-        // BDD_ID r;
 
         bool operator == (const CashEntry& c2) const
         {
@@ -44,37 +43,13 @@ namespace ClassProject
         
         bool operator == (const TableEntry& c2) const
         {
-            return //(label == c2.label) &&
-                    (id == c2.id) &&
+            return  (id == c2.id) &&
                     (high == c2.high) &&
                     (low == c2.low) &&
                     (topVar == c2.topVar);
         }
     };
 
-    struct CashEntryHash
-    {
-        size_t operator()(const CashEntry& cashEntry) const
-        {
-            std::size_t seed = 0;
-            boost::hash_combine(seed, boost::hash_value(cashEntry.f));
-            boost::hash_combine(seed, boost::hash_value(cashEntry.g));
-            boost::hash_combine(seed, boost::hash_value(cashEntry.h));
-            return seed;
-        }
-    };
-
-    struct TableEntryHash
-    {
-        size_t operator()(const TableEntry& tableEntry) const
-        {
-            std::size_t seed = 0;
-            boost::hash_combine(seed, boost::hash_value(tableEntry.high));
-            boost::hash_combine(seed, boost::hash_value(tableEntry.low));
-            boost::hash_combine(seed, boost::hash_value(tableEntry.topVar));
-            return seed;
-        }
-    };
 class Manager: public ManagerInterface
 {
 public:
@@ -140,12 +115,7 @@ public:
     BDD_ID find_or_add_unique_table(const BDD_ID topVar, const BDD_ID r_low, const BDD_ID r_high);
     string to_key(const BDD_ID i, const BDD_ID t, const BDD_ID e);
 
-    // vector<CashEntry> computedTable;
-    // TODO make key as String:: make string(i + t + e)
-
     vector<TableEntry> uniqueTable;
-    // unordered_map<TableEntry, BDD_ID, TableEntryHash> reverseUniqueTable;
-    // unordered_map<CashEntry, BDD_ID, CashEntryHash> reverseComputedTable;
     unordered_map<string, BDD_ID> reverseUniqueTable;
     unordered_map<string, BDD_ID> reverseComputedTable;
 };
