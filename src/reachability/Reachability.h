@@ -26,7 +26,7 @@ public:
          * @param stateSize vector specifying the number of bits
          * @throws std::runtime_error if stateSize is zero
          */
-        // explicit ReachabilityInterface(unsigned int stateSize){};
+         Reachability(unsigned int stateSize);
 
         /**
          * Returns a vector containing all state bits of the state machine.
@@ -71,6 +71,21 @@ public:
          */
         void setInitState(const std::vector<bool> &stateVector);
     private:
+         void computeReachableStates();
+         BDD_ID computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction);
+         /* Question: is compute characteristic function just
+         * transition relaton with 0 ? (if yes let arguments if no then remove arguments)
+         * BDD_ID computeCharacteristicFunction();
+         */
+         
+
+      int stateSize;
+      std::vector<BDD_ID> currentStateBits;
+      std::vector<BDD_ID> nextStateBits;
+      std::vector<BDD_ID> transitionFunction;
+
+      std::vector<std::vector<bool>> reachableStates;
+      
    };
 
 }
