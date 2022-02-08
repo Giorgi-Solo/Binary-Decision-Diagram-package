@@ -41,42 +41,6 @@ void Reachability::setInitState(const std::vector<bool> &stateVector)
     computeReachableStates();
 }
 
-const std::vector<BDD_ID> &Reachability::getStates() const
-{
-   return currentStateBits;
-}
-
-bool Reachability::isReachable(const std::vector<bool> &stateVector)
-{
-    if (stateSize != stateVector.size())
-    {
-        throw std::runtime_error("Reachability::isReachable: size does not match with number of state bits");
-    }
-
-    std::vector<BDD_ID> stateBits = getStates();
-    BDD_ID tmp = Cr;
-
-    for(int i = 0; i < stateVector.size(); ++i)
-    {
-
-        if(stateVector.at(i))
-        {
-            tmp = coFactorTrue(tmp,stateBits.at(i));
-        }
-        else
-        {
-            tmp = coFactorFalse(tmp,stateBits.at(i));
-        }
-
-        if(tmp <= 1)
-        {
-            return tmp;
-        }
-    }
-
-
-}
-
 void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionFunctions)
 {
     if (stateSize != transitionFunctions.size())
@@ -155,4 +119,41 @@ BDD_ID Reachability::computeInitialCharacteristic(std::vector<BDD_ID> currentSta
     }
 
     return Cs0;
+}
+
+
+const std::vector<BDD_ID> &Reachability::getStates() const
+{
+   return currentStateBits;
+}
+
+bool Reachability::isReachable(const std::vector<bool> &stateVector)
+{
+    if (stateSize != stateVector.size())
+    {
+        throw std::runtime_error("Reachability::isReachable: size does not match with number of state bits");
+    }
+
+    std::vector<BDD_ID> stateBits = getStates();
+    BDD_ID tmp = Cr;
+
+    for(int i = 0; i < stateVector.size(); ++i)
+    {
+
+        if(stateVector.at(i))
+        {
+            tmp = coFactorTrue(tmp,stateBits.at(i));
+        }
+        else
+        {
+            tmp = coFactorFalse(tmp,stateBits.at(i));
+        }
+
+        if(tmp <= 1)
+        {
+            return tmp;
+        }
+    }
+
+
 }
