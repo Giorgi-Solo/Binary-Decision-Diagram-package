@@ -109,7 +109,7 @@ BDD_ID Reachability::computeTransitionRelation(std::vector<BDD_ID>& nextStateBit
 
 BDD_ID Reachability::computeInitialCharacteristic(std::vector<BDD_ID> currentStateBits, std::vector<bool> initStates)
 {
-    //TODO throw
+  
     BDD_ID Cs0 = xnor2(currentStateBits.at(0), initStates.at(0));
     BDD_ID tmp;
     for(int i = 1; i < initStates.size(); ++i)
@@ -120,7 +120,6 @@ BDD_ID Reachability::computeInitialCharacteristic(std::vector<BDD_ID> currentSta
 
     return Cs0;
 }
-
 
 const std::vector<BDD_ID> &Reachability::getStates() const
 {
