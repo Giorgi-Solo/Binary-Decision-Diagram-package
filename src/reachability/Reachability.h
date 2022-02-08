@@ -20,7 +20,9 @@ namespace ClassProject {
       bool isReachable(const std::vector<bool> &stateVector);
       void setTransitionFunctions(const std::vector<BDD_ID> &transitionFunctions);
       void setInitState(const std::vector<bool> &stateVector);
-
+      const vector<bool> &getInitStates() const;
+      const vector<BDD_ID> &getTransitionFunctions() const;
+      
    private:
       void computeReachableStates();
       BDD_ID computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction);

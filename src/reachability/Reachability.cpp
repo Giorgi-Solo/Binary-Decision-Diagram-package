@@ -153,6 +153,14 @@ bool Reachability::isReachable(const std::vector<bool> &stateVector)
             return tmp;
         }
     }
+}
 
+const std::vector<bool> &Reachability::getInitStates() const
+{
+   return initStates;
+}
 
+const std::vector<BDD_ID> &Reachability::getTransitionFunctions() const
+{
+   return transitionFunction;
 }
