@@ -79,6 +79,11 @@ bool Reachability::isReachable(const std::vector<bool> &stateVector)
 
 void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionFunctions)
 {
+    if (stateSize != transitionFunctions.size())
+    {
+        throw std::runtime_error("Reachability::setTransitionFunctions: size does not match with number of state bits");
+    }
+
     transitionFunction = transitionFunctions;
     computeReachableStates();
 }
