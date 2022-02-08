@@ -14,18 +14,32 @@ Reachability::Reachability(unsigned int stateSize):ReachabilityInterface(stateSi
         throw std::runtime_error ("Reachability::Reachability: initialized with null stateSize");
     }
 
-    std::vector<bool> tmp(stateSize, 0);
-    this->stateSize = stateSize;
-    setInitState(tmp);
-
     for (int i = 0; i < stateSize; i++)
     {
         currentStateBits.push_back(createVar("s" + std::to_string(i)));
         nextStateBits.push_back(createVar("s'" + std::to_string(i)));
     }
 
+    std::vector<bool> tmp(stateSize, 0);
+    this->stateSize = stateSize;
+    // setInitState(tmp);
+
+    // setTransitionFunctions(currentStateBits);
+    initStates = tmp;
+    transitionFunction = currentStateBits;
+    computeReachableStates();
 }
 
+void Reachability::setInitState(const std::vector<bool> &stateVector)
+{
+    if (stateSize != stateVector.size())
+    {
+        throw std::runtime_error("Reachability::setInitState: size does not match with number of state bits");
+    }
+    
+    initStates = stateVector;
+    computeReachableStates();
+}
 
 const std::vector<BDD_ID> &Reachability::getStates() const
 {
@@ -65,29 +79,21 @@ bool Reachability::isReachable(const std::vector<bool> &stateVector)
 
 void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionFunctions)
 {
-
-}
-
-void Reachability::setInitState(const std::vector<bool> &stateVector)
-{
-    if (stateSize != stateVector.size())
-    {
-        throw std::runtime_error("Reachability::setInitState: size does not match with number of state bits");
-    }
-    
-    initStates = stateVector;
+    transitionFunction = transitionFunctions;
+    computeReachableStates();
 }
 
 void Reachability::computeReachableStates()
 {
     BDD_ID tau = computeTransitionRelation(nextStateBits,transitionFunction);
 
+    // std::vector<BDD_ID> tmp(stateSize, 0);
     BDD_ID Cs0 = computeInitialCharacteristic(currentStateBits, initStates);
+    
+    // computeTransitionRelation(currentStateBits, tmp);
 
     BDD_ID Crit = Cs0;
-    // BDD_ID Cr;
     BDD_ID img;
-    BDD_ID tmp; // Delete
 
     do{
         Cr = Crit;
@@ -111,9 +117,6 @@ void Reachability::computeReachableStates()
         Crit = or2(Cr, img);
 
     }while (Cr != Crit);
-    
-    
-
 }
 
 BDD_ID Reachability::computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction)
@@ -123,18 +126,17 @@ BDD_ID Reachability::computeTransitionRelation(std::vector<BDD_ID>& nextStateBit
         throw std::runtime_error("Reachability::setInitState: size does not match with number of state bits");
     }
     
-    BDD_ID tau = or2(and2(nextStateBits.at(0), transitionFunction.at(0)),  and2(not(nextStateBits.at(0)), not(transitionFunction.at(0))));
+    BDD_ID tau =  xnor2(nextStateBits.at(0), transitionFunction.at(0)); //,  and2(not(nextStateBits.at(0)), not(transitionFunction.at(0))));
     BDD_ID tmp;
 
     for(int i = 1; i < nextStateBits.size(); ++i)
     {
-       tmp = or2(and2(nextStateBits.at(i), transitionFunction.at(i)),  and2(not(nextStateBits.at(i)), not(transitionFunction.at(i))));
+       tmp = xnor2(nextStateBits.at(i), transitionFunction.at(i));//or2(and2(nextStateBits.at(i), transitionFunction.at(i)),  and2(not(nextStateBits.at(i)), not(transitionFunction.at(i))));
        tau = and2(tmp,tau);
     }
 
     return tau;
 }
-
 
 BDD_ID Reachability::computeInitialCharacteristic(std::vector<BDD_ID> currentStateBits, std::vector<bool> initStates)
 {
