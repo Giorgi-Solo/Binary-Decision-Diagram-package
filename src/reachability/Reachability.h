@@ -22,9 +22,10 @@ namespace ClassProject {
       void setInitState(const std::vector<bool> &stateVector);
       const vector<bool> &getInitStates() const;
       const vector<BDD_ID> &getTransitionFunctions() const;
-      
+      const BDD_ID &getCr() const;
+
    private:
-      void computeReachableStates();
+      BDD_ID computeReachableStates();
       BDD_ID computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction);
       BDD_ID computeInitialCharacteristic(std::vector<BDD_ID> currentStateBits, std::vector<bool> initStates);
 

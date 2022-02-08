@@ -14,6 +14,8 @@
 using namespace std;
 using namespace ClassProject;
 
+
+
 TEST(Reachability, constructor)
 {
     ClassProject::Reachability reachability(STATE_SIZE);
@@ -110,56 +112,30 @@ TEST(Reachability, isReachable)
 TEST(Reachability, getStates)
 {
     ClassProject::Reachability reachability(STATE_SIZE);
-
-    int uniqueTableSize = reachability.uniqueTableSize();
-
-    BDD_ID s0 = uniqueTableSize - 2;
-    BDD_ID s1 = uniqueTableSize - 1;
-    cout << s0 << endl;
-    EXPECT_TRUE(s0 == reachability.getStates().at(0)) << "state variables are not correctly retrieved " << reachability.getStates().at(0) << reachability.getStates().size() << endl;
-    EXPECT_TRUE(s1 == reachability.getStates().at(1)) << "state variables are not correctly retrieved " << reachability.getStates().at(1) << reachability.getStates().size() << endl;
+    
+    EXPECT_TRUE(2 == reachability.getStates().at(0)) << "state variables are not correctly retrieved " << reachability.getStates().at(0) << endl;
+    EXPECT_TRUE(4 == reachability.getStates().at(1)) << "state variables are not correctly retrieved " << reachability.getStates().at(1) << endl;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 TEST(Reachability, computeReachableStates)
-{
+{   // This checks computeREachableStates, GetCR, computeTransitionRelation, and computeInitialCharacteristic methods
     ClassProject::Reachability reachability(STATE_SIZE);
 
-    // EXPECT_TRUE(STATE_SIZE == reachability.getStates().size()) << "state variables are not correctly stored" << reachability.getStates().size() << endl;
-}
+    BDD_ID s0 = reachability.getStates().at(0);
+    BDD_ID s1 = reachability.getStates().at(1);
 
-TEST(Reachability, computeTransitionRelation)
-{
-    ClassProject::Reachability reachability(STATE_SIZE);
+    BDD_ID delta0 = reachability.neg(s0);
+    BDD_ID delta1 = reachability.neg(s1);
 
-    // EXPECT_TRUE(STATE_SIZE == reachability.getStates().size()) << "state variables are not correctly stored" << reachability.getStates().size() << endl;
-}
+    vector<BDD_ID> transactionFuns = {delta0, delta1};
 
-TEST(Reachability, computeInitialCharacteristic)
-{
-    ClassProject::Reachability reachability(STATE_SIZE);
+    reachability.setTransitionFunctions(transactionFuns);
 
-    // EXPECT_TRUE(STATE_SIZE == reachability.getStates().size()) << "state variables are not correctly stored" << reachability.getStates().size() << endl;
+    BDD_ID charFun = reachability.xnor2(s0, s1);
+
+    EXPECT_TRUE(charFun == reachability.getCr()) << "state 01 should not be reachable"  << endl;
+
 }
 
 #endif

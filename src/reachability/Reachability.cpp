@@ -52,7 +52,7 @@ void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionF
     computeReachableStates();
 }
 
-void Reachability::computeReachableStates()
+BDD_ID Reachability::computeReachableStates()
 {
     BDD_ID tau = computeTransitionRelation(nextStateBits,transitionFunction);
 
@@ -86,6 +86,8 @@ void Reachability::computeReachableStates()
         Crit = or2(Cr, img);
 
     }while (Cr != Crit);
+
+    return Cr;
 }
 
 BDD_ID Reachability::computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction)
@@ -163,4 +165,9 @@ const std::vector<bool> &Reachability::getInitStates() const
 const std::vector<BDD_ID> &Reachability::getTransitionFunctions() const
 {
    return transitionFunction;
+}
+
+const BDD_ID &Reachability::getCr() const
+{
+    return Cr;
 }
