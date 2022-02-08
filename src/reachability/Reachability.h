@@ -24,17 +24,15 @@ namespace ClassProject {
    private:
       void computeReachableStates();
       BDD_ID computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction);
-      /* Question: is compute characteristic function just
-      * transition relaton with 0 ? (if yes let arguments if no then remove arguments)
-      * BDD_ID computeCharacteristicFunction();
-      */
+      BDD_ID computeInitialCharacteristic(std::vector<BDD_ID> currentStateBits, std::vector<bool> initStates);
 
       int stateSize;
+      BDD_ID Cr;
       std::vector<BDD_ID> currentStateBits;
       std::vector<BDD_ID> nextStateBits;
       std::vector<BDD_ID> transitionFunction;
 
-      std::vector<std::vector<bool>> reachableStates;
+      std::vector<bool> initStates;
    };
 
 }

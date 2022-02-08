@@ -39,11 +39,28 @@ bool Reachability::isReachable(const std::vector<bool> &stateVector)
         throw std::runtime_error("Reachability::isReachable: size does not match with number of state bits");
     }
 
+    std::vector<BDD_ID> stateBits = getStates();
+    BDD_ID tmp = Cr;
 
-    /*
-    *
-    */
-   return false;
+    for(int i = 0; i < stateVector.size(); ++i)
+    {
+
+        if(stateVector.at(i))
+        {
+            tmp = coFactorTrue(tmp,stateBits.at(i));
+        }
+        else
+        {
+            tmp = coFactorFalse(tmp,stateBits.at(i));
+        }
+
+        if(tmp <= 1)
+        {
+            return tmp;
+        }
+    }
+
+
 }
 
 void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionFunctions)
@@ -58,36 +75,77 @@ void Reachability::setInitState(const std::vector<bool> &stateVector)
         throw std::runtime_error("Reachability::setInitState: size does not match with number of state bits");
     }
     
-    reachableStates.push_back(stateVector);
+    initStates = stateVector;
 }
 
 void Reachability::computeReachableStates()
 {
-    std::vector<BDD_ID> tmp(stateSize, 0);
+    BDD_ID tau = computeTransitionRelation(nextStateBits,transitionFunction);
 
-    BDD_ID tau = computeTransitionRelation(nextStateBits, transitionFunction);
-    BDD_ID cs = computeTransitionRelation(currentStateBits, tmp);
+    BDD_ID Cs0 = computeInitialCharacteristic(currentStateBits, initStates);
 
-    BDD_ID cr_it = cs;
+    BDD_ID Crit = Cs0;
+    // BDD_ID Cr;
+    BDD_ID img;
+    BDD_ID tmp; // Delete
+
+    do{
+        Cr = Crit;
+        img = and2(Cr, tau);
+
+        for(int i = 0; i < currentStateBits.size(); ++i)
+        {
+            img = or2(coFactorFalse(img, currentStateBits.at(i)), coFactorTrue(img, currentStateBits.at(i)));
+        }
+
+        for(int i = 0; i < nextStateBits.size(); ++i)
+        {
+            img = and2( img, xnor2(currentStateBits.at(i), nextStateBits.at(i)) );
+        }
+
+        for(int i = 0; i < nextStateBits.size(); ++i)
+        {
+            img = or2(coFactorFalse(img, nextStateBits.at(i)), coFactorTrue(img, nextStateBits.at(i)));
+        }
+
+        Crit = or2(Cr, img);
+
+    }while (Cr != Crit);
+    
+    
 
 }
 
-BDD_ID Reachability::computeTransitionRelation(std::vector<BDD_ID>& stateBits, std::vector<BDD_ID>& transitionFunction)
+BDD_ID Reachability::computeTransitionRelation(std::vector<BDD_ID>& nextStateBits, std::vector<BDD_ID>& transitionFunction)
 {
-    if (stateBits.size() != transitionFunction.size())
+    if (nextStateBits.size() != transitionFunction.size())
     {
         throw std::runtime_error("Reachability::setInitState: size does not match with number of state bits");
     }
     
-    BDD_ID tau = 1; //1 = neutral element
-    
-    for (int i = 0; i < stateBits.size(); i++)
-    {
-        tau = and2(tau, xnor2(stateBits[i], transitionFunction[i]));
+    BDD_ID tau = or2(and2(nextStateBits.at(0), transitionFunction.at(0)),  and2(not(nextStateBits.at(0)), not(transitionFunction.at(0))));
+    BDD_ID tmp;
 
-        // tau = and2(tau, or2(and2(nextStateBits[i], transitionFunction[i]),
-        //                     and2(not2(nextStateBits[i]), not2(transitionFunction[i]))));
+    for(int i = 1; i < nextStateBits.size(); ++i)
+    {
+       tmp = or2(and2(nextStateBits.at(i), transitionFunction.at(i)),  and2(not(nextStateBits.at(i)), not(transitionFunction.at(i))));
+       tau = and2(tmp,tau);
     }
 
     return tau;
+}
+
+
+BDD_ID Reachability::computeInitialCharacteristic(std::vector<BDD_ID> currentStateBits, std::vector<bool> initStates)
+{
+    //TODO throw
+    BDD_ID Cs0 = xnor2(currentStateBits.at(0), initStates.at(0));
+    BDD_ID tmp;
+    for(int i = 1; i < initStates.size(); ++i)
+    {
+       tmp = xnor2(currentStateBits.at(i), initStates.at(i)); //TODO fix this
+       Cs0 = and2(tmp, Cs0);
+    }
+
+    return Cs0;
 }

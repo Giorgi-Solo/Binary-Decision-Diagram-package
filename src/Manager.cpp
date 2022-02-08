@@ -23,6 +23,7 @@ Manager::Manager(vector<TableEntry> uniqueTable)
     }
 }
 
+
 Manager::~Manager()
 {}
 
