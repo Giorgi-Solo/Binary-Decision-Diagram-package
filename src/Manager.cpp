@@ -23,6 +23,7 @@ Manager::Manager(vector<TableEntry> uniqueTable)
     }
 }
 
+
 Manager::~Manager()
 {}
 
@@ -308,6 +309,7 @@ size_t Manager::cashNodeSize()
 
 inline string Manager::to_key(const BDD_ID x1, const BDD_ID x2, const BDD_ID x3)
 {
+    // TODO: move towards of a hash function
     /*
         |Name|UniqueTable|ComputeTable|
         | x1 |   high    |     i      |
