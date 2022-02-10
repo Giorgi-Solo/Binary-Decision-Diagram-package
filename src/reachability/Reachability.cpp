@@ -48,6 +48,12 @@ void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionF
         throw std::runtime_error("Reachability::setTransitionFunctions: size does not match with number of state bits");
     }
 
+    for(int i= 0; i < transitionFunctions.size(); ++i)
+    {
+        if( transitionFunctions.at(i) >= uniqueTableSize() )
+            throw std::runtime_error("Reachability::setTransitionFunctions: Invalid Id for transition function");
+    }
+
     transitionFunction = transitionFunctions;
     computeReachableStates();
 }
