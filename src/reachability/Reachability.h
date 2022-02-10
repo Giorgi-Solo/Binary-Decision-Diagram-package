@@ -31,12 +31,11 @@ namespace ClassProject {
 
       int stateSize;
       BDD_ID Cr;
+
+      std::vector<bool> initStates;
       std::vector<BDD_ID> currentStateBits;
       std::vector<BDD_ID> nextStateBits;
       std::vector<BDD_ID> transitionFunction;
-
-      std::vector<bool> initStates;
    };
-
 }
 #endif

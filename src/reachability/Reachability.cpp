@@ -22,9 +22,7 @@ Reachability::Reachability(unsigned int stateSize):ReachabilityInterface(stateSi
 
     std::vector<bool> tmp(stateSize, 0);
     this->stateSize = stateSize;
-    // setInitState(tmp);
 
-    // setTransitionFunctions(currentStateBits);
     initStates = tmp;
     transitionFunction = currentStateBits;
     computeReachableStates();
@@ -34,7 +32,7 @@ void Reachability::setInitState(const std::vector<bool> &stateVector)
 {
     if (stateSize != stateVector.size())
     {
-        throw std::runtime_error("Reachability::setInitState: size does not match with number of state bits");
+        throw std::runtime_error("Reachability::setInitState: Size does not match with number of state bits");
     }
     
     initStates = stateVector;
@@ -45,7 +43,7 @@ void Reachability::setTransitionFunctions(const std::vector<BDD_ID> &transitionF
 {
     if (stateSize != transitionFunctions.size())
     {
-        throw std::runtime_error("Reachability::setTransitionFunctions: size does not match with number of state bits");
+        throw std::runtime_error("Reachability::setTransitionFunctions: Size does not match with number of state bits");
     }
 
     for(int i= 0; i < transitionFunctions.size(); ++i)
@@ -62,11 +60,8 @@ BDD_ID Reachability::computeReachableStates()
 {
     BDD_ID tau = computeTransitionRelation(nextStateBits,transitionFunction);
 
-    // std::vector<BDD_ID> tmp(stateSize, 0);
     BDD_ID Cs0 = computeInitialCharacteristic(currentStateBits, initStates);
     
-    // computeTransitionRelation(currentStateBits, tmp);
-
     BDD_ID Crit = Cs0;
     BDD_ID img;
 
@@ -120,6 +115,7 @@ BDD_ID Reachability::computeInitialCharacteristic(std::vector<BDD_ID> currentSta
   
     BDD_ID Cs0 = xnor2(currentStateBits.at(0), initStates.at(0));
     BDD_ID tmp;
+
     for(int i = 1; i < initStates.size(); ++i)
     {
        tmp = xnor2(currentStateBits.at(i), initStates.at(i)); //TODO fix this
@@ -146,7 +142,6 @@ bool Reachability::isReachable(const std::vector<bool> &stateVector)
 
     for(int i = 0; i < stateVector.size(); ++i)
     {
-
         if(stateVector.at(i))
         {
             tmp = coFactorTrue(tmp,stateBits.at(i));
