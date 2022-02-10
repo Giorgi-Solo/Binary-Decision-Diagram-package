@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 #include "Reachability.h"
-
+//ASSERT_THROW
 using namespace std;
 using namespace ClassProject;
 
@@ -34,6 +34,9 @@ std::vector<bool> decToBinVct(int number, int size)
 
 TEST(Reachability, constructor)
 {
+    //Checking for error catch
+    ASSERT_THROW(ClassProject::Reachability badUse(0), std::runtime_error);
+
     ClassProject::Reachability reachability(STATE_SIZE);
 
     std::vector<bool> tmp(STATE_SIZE, 0);
@@ -72,6 +75,9 @@ TEST(Reachability, getTransitionFunctions)
 TEST(Reachability, setInitState)
 {
     ClassProject::Reachability reachability(STATE_SIZE);
+     //Checking for error catch
+    vector<bool> buff(STATE_SIZE + 1, 0);
+    ASSERT_THROW(reachability.setInitState(buff), std::runtime_error);
 
     vector<bool> initialStates;
     
@@ -87,7 +93,12 @@ TEST(Reachability, setInitState)
 TEST(Reachability, setTransitionFunctions)
 {
     ClassProject::Reachability reachability(STATE_SIZE);
-
+     //Checking for error catch
+    vector<BDD_ID> buff1(STATE_SIZE + 1, 0);
+    vector<BDD_ID> buff2(STATE_SIZE, reachability.uniqueTableSize() + 1);
+    ASSERT_THROW(reachability.setTransitionFunctions(buff1), std::runtime_error);
+    ASSERT_THROW(reachability.setTransitionFunctions(buff2), std::runtime_error);
+   
     vector<BDD_ID> s = reachability.getStates();
 
     vector<BDD_ID> delta;
@@ -105,6 +116,9 @@ TEST(Reachability, setTransitionFunctions)
 TEST(Reachability, isReachable)
 {
     ClassProject::Reachability reachability(STATE_SIZE);
+     //Checking for error catch
+    vector<bool> buff(STATE_SIZE + 1, 0);
+    ASSERT_THROW(reachability.setInitState(buff), std::runtime_error);
 
     vector<BDD_ID> s = reachability.getStates();
 
